@@ -248,6 +248,26 @@ class Media {
       texture.image = img;
       this.program.uniforms.uImageSizes.value = [img.naturalWidth || 800, img.naturalHeight || 600];
     };
+    img.onerror = () => {
+      // Fallback canvas to prevent WebGL black screen or crash on network error
+      const fallbackCanvas = document.createElement('canvas');
+      fallbackCanvas.width = 800;
+      fallbackCanvas.height = 600;
+      const ctx = fallbackCanvas.getContext('2d');
+      if (ctx) {
+        const grad = ctx.createLinearGradient(0, 0, 800, 600);
+        grad.addColorStop(0, '#0F1A30');
+        grad.addColorStop(1, '#1E3358');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 800, 600);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 36px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(this.text || 'Tech Yuva', 400, 300);
+      }
+      texture.image = fallbackCanvas;
+      this.program.uniforms.uImageSizes.value = [800, 600];
+    };
   }
 
   createMesh() {
@@ -554,19 +574,34 @@ export default function CircularGallery() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const gallery = new AppCore(containerRef.current, {
-      items: ECOSYSTEM_ITEMS,
-      bend: 3.5,
-      textColor: '#f5f0ed',
-      borderRadius: 0.08,
-      font: 'bold 26px Outfit, sans-serif',
-      scrollSpeed: 2.5,
-      scrollEase: 0.03,
-    });
-    galleryRef.current = gallery;
+    let gallery: AppCore | null = null;
+    try {
+      while (containerRef.current.firstChild) {
+        containerRef.current.removeChild(containerRef.current.firstChild);
+      }
+
+      gallery = new AppCore(containerRef.current, {
+        items: ECOSYSTEM_ITEMS,
+        bend: 3.5,
+        textColor: '#FFFFFF',
+        borderRadius: 0.08,
+        font: 'bold 26px Outfit, sans-serif',
+        scrollSpeed: 2.5,
+        scrollEase: 0.03,
+      });
+      galleryRef.current = gallery;
+    } catch (err) {
+      console.warn('WebGL CircularGallery initialization note:', err);
+    }
 
     return () => {
-      gallery.destroy();
+      try {
+        if (gallery) {
+          gallery.destroy();
+        }
+      } catch (e) {
+        // ignore
+      }
     };
   }, []);
 

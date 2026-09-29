@@ -42,31 +42,30 @@
     let loadedCount = 0;
     let currentFrame = -1;
     let isReady = false;
-    let rafId = null;
-
     // === Utility: Frame filename ===
-    function getFramePath(index) {
-        // Frames are named 001.png through 270.png
+    function getFramePath(index, ext) {
         const num = String(index + 1).padStart(3, '0');
-        return FRAME_DIR + num + FRAME_EXT;
+        return FRAME_DIR + num + (ext || '.webp');
     }
 
     // === Canvas Sizing ===
     function resizeCanvas() {
         if (!canvas) return;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for memory
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         const w = window.innerWidth;
         const h = window.innerHeight;
 
         // Reduce resolution on mobile
         const isMobile = w <= 768;
-        const scale = isMobile ? Math.min(dpr, 1.5) : dpr;
+        const scale = isMobile ? 1.0 : dpr;
 
-        canvas.width = w * scale;
-        canvas.height = h * scale;
+        canvas.width = Math.round(w * scale);
+        canvas.height = Math.round(h * scale);
         canvas.style.width = w + 'px';
         canvas.style.height = h + 'px';
         ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
 
         // Redraw current frame after resize
         if (currentFrame >= 0 && images[currentFrame]) {
@@ -84,6 +83,8 @@
         const cw = window.innerWidth;
         const ch = window.innerHeight;
 
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.clearRect(0, 0, cw, ch);
 
         // Calculate cover dimensions
@@ -125,12 +126,21 @@
                 resolve(img);
             };
             img.onerror = function () {
-                // On error, skip — keep previous valid frame
-                loadedCount++;
-                updateLoaderProgress();
-                resolve(null);
+                const fallbackImg = new Image();
+                fallbackImg.onload = function () {
+                    images[index] = fallbackImg;
+                    loadedCount++;
+                    updateLoaderProgress();
+                    resolve(fallbackImg);
+                };
+                fallbackImg.onerror = function () {
+                    loadedCount++;
+                    updateLoaderProgress();
+                    resolve(null);
+                };
+                fallbackImg.src = getFramePath(index, '.png');
             };
-            img.src = getFramePath(index);
+            img.src = getFramePath(index, '.webp');
         });
     }
 
@@ -183,49 +193,87 @@
         });
     }
 
-    // === GSAP ScrollTrigger Setup ===
-    function initScrollAnimation() {
+    // === Auto-Play Animation Loop ===
+    let isPlaying = true;
+    let isHolding = false;
+    let animFrame = 0;
+    let lastTick = performance.now();
+    const FPS = 25;
+    const FRAME_INTERVAL = 1000 / FPS;
+
+    function initAutoPlayAnimation() {
         if (!canvas || !ctx || !heroContainer) return;
 
-        gsap.registerPlugin(ScrollTrigger);
+        function autoPlayLoop(now) {
+            if (isPlaying && !isHolding) {
+                const delta = now - lastTick;
+                if (delta >= FRAME_INTERVAL) {
+                    const framesToAdvance = Math.max(1, Math.floor(delta / FRAME_INTERVAL));
+                    lastTick = now - (delta % FRAME_INTERVAL);
 
-        // Main frame scrubbing
-        const frameAnimation = { frame: 0 };
+                    let nextFrame = animFrame + framesToAdvance;
 
-        gsap.to(frameAnimation, {
-            frame: FRAME_COUNT - 1,
-            snap: 'frame',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: heroContainer,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: SCRUB_SPEED,
-                onUpdate: function (self) {
-                    const progress = self.progress;
-                    const frameIndex = Math.round(progress * (FRAME_COUNT - 1));
-                    const clampedIndex = Math.max(0, Math.min(frameIndex, FRAME_COUNT - 1));
+                    if (nextFrame >= FRAME_COUNT - 1) {
+                        nextFrame = FRAME_COUNT - 1;
+                        animFrame = nextFrame;
+                        renderFrame(nextFrame);
+                        updateTextPhases(1);
 
-                    // Find nearest loaded frame
-                    let targetFrame = clampedIndex;
-                    if (!images[targetFrame]) {
-                        // Search backward for nearest loaded frame
-                        for (let k = targetFrame; k >= 0; k--) {
-                            if (images[k]) { targetFrame = k; break; }
+                        isHolding = true;
+                        setTimeout(() => {
+                            animFrame = 0;
+                            isHolding = false;
+                            lastTick = performance.now();
+                            renderFrame(0);
+                            updateTextPhases(0);
+                        }, 3500);
+                    } else {
+                        animFrame = nextFrame;
+                        let drawIdx = nextFrame;
+                        if (!images[drawIdx]) {
+                            for (let k = drawIdx; k >= 0; k--) {
+                                if (images[k]) { drawIdx = k; break; }
+                            }
                         }
+                        if (drawIdx !== currentFrame && images[drawIdx]) {
+                            renderFrame(drawIdx);
+                        }
+                        const progress = nextFrame / (FRAME_COUNT - 1);
+                        updateTextPhases(progress);
                     }
+                }
+            }
+            rafId = requestAnimationFrame(autoPlayLoop);
+        }
 
-                    // Render via rAF to avoid excessive redraws
-                    if (targetFrame !== currentFrame) {
-                        if (rafId) cancelAnimationFrame(rafId);
-                        rafId = requestAnimationFrame(() => renderFrame(targetFrame));
-                    }
+        // Preload first 20 frames then play
+        const initialLoads = [];
+        for (let i = 0; i < 20; i++) {
+            initialLoads.push(loadImage(i));
+        }
+        Promise.all(initialLoads).then(() => {
+            resizeCanvas();
+            if (images[0]) renderFrame(0);
+            hideLoader();
+            showPhase(0);
 
-                    // Update text phases based on progress
-                    updateTextPhases(progress);
+            lastTick = performance.now();
+            rafId = requestAnimationFrame(autoPlayLoop);
+
+            // Stream rest
+            for (let i = 20; i < FRAME_COUNT; i += BATCH_SIZE) {
+                for (let j = i; j < Math.min(i + BATCH_SIZE, FRAME_COUNT); j++) {
+                    loadImage(j);
                 }
             }
         });
+
+        // Pause when scrolled out of view
+        const observer = new IntersectionObserver(([entry]) => {
+            isPlaying = entry.isIntersecting;
+            if (isPlaying) lastTick = performance.now();
+        }, { threshold: 0.15 });
+        observer.observe(heroContainer);
     }
 
     function updateTextPhases(progress) {
@@ -460,16 +508,7 @@
         if (prefersReducedMotion) {
             initReducedMotion();
         } else {
-            // Start frame loading
-            loadFrames().then(() => {
-                // All frames loaded — animation fully operational
-            });
-
-            // Start GSAP animation (works progressively as frames load)
-            initScrollAnimation();
-
-            // Show phase 1 initially
-            showPhase(0);
+            initAutoPlayAnimation();
         }
 
         // Handle resize

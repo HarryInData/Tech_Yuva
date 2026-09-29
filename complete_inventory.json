@@ -1,0 +1,870 @@
+[
+  {
+    "file": "app\\globals.css",
+    "line": 9,
+    "old": "--black: #050505",
+    "purpose": "Base page background token",
+    "new": "var(--bg-base) / #050B18"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 10,
+    "old": "--black-warm: #0a0404",
+    "purpose": "Alternate section background token",
+    "new": "var(--bg-elevated) / #0A1428"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 11,
+    "old": "--black-card: #0f0808",
+    "purpose": "Card and container surface token",
+    "new": "var(--bg-surface) / #0F1B33"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 12,
+    "old": "--red: #c0392b",
+    "purpose": "Primary brand red accent token",
+    "new": "var(--accent) / #1E90FF"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 13,
+    "old": "--red-light: #e74c3c",
+    "purpose": "Bright red accent token",
+    "new": "var(--accent-bright) / #38BDF8"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 14,
+    "old": "--red-dim: rgba(192,57,43,0.12)",
+    "purpose": "Tinted red badge/chip background token",
+    "new": "var(--accent-soft) / rgba(30, 144, 255, 0.12)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 15,
+    "old": "--red-glow: rgba(192,57,43,0.25)",
+    "purpose": "Red glow shadow token",
+    "new": "var(--accent-glow) / rgba(30, 144, 255, 0.35)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 16,
+    "old": "--crimson: #dc143c",
+    "purpose": "Deep crimson accent token",
+    "new": "var(--accent-deep) / #2563EB"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 17,
+    "old": "--rose: #ff6b6b",
+    "purpose": "Rose accent token",
+    "new": "var(--accent-bright) / #38BDF8"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 18,
+    "old": "--white: #f5f0ed",
+    "purpose": "Text primary token",
+    "new": "var(--text-primary) / #FFFFFF"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 20,
+    "old": "--grey: rgba(245,240,237,0.55)",
+    "purpose": "Text muted token",
+    "new": "var(--text-muted) / #9FB0CC"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 21,
+    "old": "--grey-dim: rgba(245,240,237,0.3)",
+    "purpose": "Text disabled token",
+    "new": "var(--text-disabled) / #5B6B8A"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 22,
+    "old": "--grey-muted: rgba(245,240,237,0.15)",
+    "purpose": "Subtle border token",
+    "new": "var(--border-subtle) / #16264A"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 23,
+    "old": "--border: rgba(245,240,237,0.07)",
+    "purpose": "Default border token",
+    "new": "var(--border-default) / #1E3358"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 24,
+    "old": "--border-hover: rgba(192,57,43,0.3)",
+    "purpose": "Border hover accent token",
+    "new": "var(--border-accent) / #1E90FF"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 25,
+    "old": "--saffron: #FF9933",
+    "purpose": "TECH wordmark brand color",
+    "new": "Option A (Cyan): var(--accent-bright) #38BDF8 / Option B: #FF9933"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 26,
+    "old": "--green: #00c853",
+    "purpose": "YUVA wordmark brand color",
+    "new": "Option A (Blue): var(--accent) #1E90FF / Option B: #00C853"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 53,
+    "old": ".accent-red { color: var(--red-light); }",
+    "purpose": "Red highlight in event title 'HACK'",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 80,
+    "old": "background: rgba(60, 15, 15, 0.45)",
+    "purpose": "Navbar floating pill backdrop fill",
+    "new": "background: rgba(15, 27, 51, 0.85)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 83,
+    "old": "border: 1px solid rgba(255, 255, 255, 0.22)",
+    "purpose": "Navbar pill border",
+    "new": "border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 97,
+    "old": "background: radial-gradient(circle at 30% 30%, #e74c3c, #8b1a1a)",
+    "purpose": "Nav logo circular badge background",
+    "new": "background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-deep))"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 98,
+    "old": "box-shadow: 0 0 12px rgba(231, 76, 60, 0.4)",
+    "purpose": "Nav logo badge glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 135,
+    "old": "background: rgba(255, 255, 255, 0.12)",
+    "purpose": "Nav active page pill background",
+    "new": "background: var(--accent-soft); color: var(--accent-bright)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 150,
+    "old": "background: #050505",
+    "purpose": "Mobile nav menu backdrop",
+    "new": "background: var(--bg-surface); border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 162,
+    "old": "background: var(--red)",
+    "purpose": "Nav action / Sign In button fill",
+    "new": "background: var(--gradient-accent); color: var(--text-on-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 166,
+    "old": "box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4)",
+    "purpose": "Nav action button hover glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 203,
+    "old": "radial-gradient(ellipse at center,transparent 40%,rgba(5,5,5,0.6) 100%)",
+    "purpose": "Hero canvas vignette overlay",
+    "new": "radial-gradient(ellipse at center, transparent 35%, var(--bg-base) 100%)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 211,
+    "old": "linear-gradient(90deg,rgba(5,5,5,0.7)...)",
+    "purpose": "Hero text contrast backdrop gradient",
+    "new": "linear-gradient(90deg, rgba(5,11,24,0.85) 0%, rgba(5,11,24,0.4) 60%, transparent 100%)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 234,
+    "old": "border: 2px solid var(--red-glow)",
+    "purpose": "Hero phase 1 logo border",
+    "new": "border: 2px solid var(--border-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 258,
+    "old": "linear-gradient(to bottom,transparent,var(--black))",
+    "purpose": "Hero section bottom transition fade",
+    "new": "linear-gradient(to bottom, transparent, var(--bg-base))"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 273,
+    "old": "background: var(--red-light)",
+    "purpose": "Hero sequence loader bar progress fill",
+    "new": "background: var(--gradient-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 286,
+    "old": "background:var(--white); color:var(--black)",
+    "purpose": "Primary button styling",
+    "new": "background: var(--gradient-accent); color: var(--text-on-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 287,
+    "old": "box-shadow: 0 12px 40px rgba(245,240,237,0.15)",
+    "purpose": "Primary button hover glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 292,
+    "old": "background: rgba(255,255,255,0.04)",
+    "purpose": "Ghost button hover background",
+    "new": "background: var(--accent-soft)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 328,
+    "old": "color: var(--red-light)",
+    "purpose": "Intro highlight word 'build'",
+    "new": "color: var(--accent-bright); background: var(--gradient-text); -webkit-background-clip: text"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 358,
+    "old": "linear-gradient(90deg,var(--red),var(--red-light))",
+    "purpose": "Pillar card top gradient stripe",
+    "new": "var(--gradient-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 362,
+    "old": "background: rgba(20,8,8,0.9)",
+    "purpose": "Pillar card hover background",
+    "new": "background: var(--bg-surface-hover); border-color: var(--border-accent); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 390,
+    "old": "radial-gradient(ellipse, rgba(192, 57, 43, 0.12)...)",
+    "purpose": "Gallery ambient background radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 402,
+    "old": "linear-gradient(180deg, rgba(18, 10, 10, 0.7) 0%, rgba(8, 4, 4, 0.9) 100%)",
+    "purpose": "Gallery viewport frame dark-red gradient",
+    "new": "linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-elevated) 100%)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 406,
+    "old": "0 0 60px rgba(192, 57, 43, 0.1) inset",
+    "purpose": "Gallery viewport inner red vignette",
+    "new": "0 0 60px rgba(30, 144, 255, 0.12) inset"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 437,
+    "old": "background: rgba(10, 5, 5, 0.85)",
+    "purpose": "Gallery control hint bar background",
+    "new": "background: rgba(15, 27, 51, 0.85); border-color: var(--border-default)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 453,
+    "old": "color: var(--red-light)",
+    "purpose": "Gallery hint SVG icon color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 454,
+    "old": "color: var(--red-light)",
+    "purpose": "Gallery hint SVG icon color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 551,
+    "old": "background: rgba(10,4,4,0.6)",
+    "purpose": "Event metadata items background",
+    "new": "background: var(--bg-surface); border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 563,
+    "old": "background: rgba(192,57,43,0.2)",
+    "purpose": "Event theme pill hover fill",
+    "new": "background: rgba(30, 144, 255, 0.25); border-color: var(--border-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 574,
+    "old": "background: rgba(255,107,107,0.1); color: var(--rose)",
+    "purpose": "Event stage 2 circular index",
+    "new": "background: rgba(56, 189, 248, 0.15); color: var(--accent-bright); border: 2px solid var(--border-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 575,
+    "old": "linear-gradient(90deg,var(--red),var(--rose))",
+    "purpose": "Event stage connector progression bar",
+    "new": "var(--gradient-accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 596,
+    "old": "linear-gradient(90deg,var(--saffron),var(--red),var(--green))",
+    "purpose": "Founder card top decorative bar",
+    "new": "linear-gradient(90deg, var(--accent-bright), var(--accent), var(--accent-deep))"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 598,
+    "old": "border: 2px solid rgba(192,57,43,0.15)",
+    "purpose": "Founder portrait frame border",
+    "new": "border: 2px solid var(--border-default)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 609,
+    "old": "border-left: 3px solid var(--red)",
+    "purpose": "Founder blockquote accent border",
+    "new": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 617,
+    "old": "background: var(--red-dim); border-color: var(--border-hover); color: var(--red-light)",
+    "purpose": "Founder social button hover style",
+    "new": "background: var(--accent-soft); border-color: var(--border-accent); color: var(--accent-bright); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 663,
+    "old": "background: rgba(20,8,8,0.9)",
+    "purpose": "Impact stat card hover background",
+    "new": "background: var(--bg-surface-hover); border-color: var(--border-accent); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 664,
+    "old": ".impact-num",
+    "purpose": "Impact metric number color",
+    "new": "background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 680,
+    "old": "radial-gradient(circle,rgba(192,57,43,0.1),transparent 60%)",
+    "purpose": "CTA card ambient red radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 683,
+    "old": "radial-gradient(circle,rgba(192,57,43,0.1),transparent 60%)",
+    "purpose": "CTA card ambient red radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 692,
+    "old": "color: var(--red-light)",
+    "purpose": "CTA heading italic emphasis ('together')",
+    "new": "color: var(--accent-bright); background: var(--gradient-text); -webkit-background-clip: text"
+  },
+  {
+    "file": "app\\globals.css",
+    "line": 718,
+    "old": "color: var(--red-light)",
+    "purpose": "Footer navigation link hover color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "styles.css",
+    "line": 9,
+    "old": "--black: #050505",
+    "purpose": "Base page background token",
+    "new": "var(--bg-base) / #050B18"
+  },
+  {
+    "file": "styles.css",
+    "line": 10,
+    "old": "--black-warm: #0a0404",
+    "purpose": "Alternate section background token",
+    "new": "var(--bg-elevated) / #0A1428"
+  },
+  {
+    "file": "styles.css",
+    "line": 11,
+    "old": "--black-card: #0f0808",
+    "purpose": "Card and container surface token",
+    "new": "var(--bg-surface) / #0F1B33"
+  },
+  {
+    "file": "styles.css",
+    "line": 12,
+    "old": "--red: #c0392b",
+    "purpose": "Primary brand red accent token",
+    "new": "var(--accent) / #1E90FF"
+  },
+  {
+    "file": "styles.css",
+    "line": 13,
+    "old": "--red-light: #e74c3c",
+    "purpose": "Bright red accent token",
+    "new": "var(--accent-bright) / #38BDF8"
+  },
+  {
+    "file": "styles.css",
+    "line": 14,
+    "old": "--red-dim: rgba(192,57,43,0.12)",
+    "purpose": "Tinted red badge/chip background token",
+    "new": "var(--accent-soft) / rgba(30, 144, 255, 0.12)"
+  },
+  {
+    "file": "styles.css",
+    "line": 15,
+    "old": "--red-glow: rgba(192,57,43,0.25)",
+    "purpose": "Red glow shadow token",
+    "new": "var(--accent-glow) / rgba(30, 144, 255, 0.35)"
+  },
+  {
+    "file": "styles.css",
+    "line": 16,
+    "old": "--crimson: #dc143c",
+    "purpose": "Deep crimson accent token",
+    "new": "var(--accent-deep) / #2563EB"
+  },
+  {
+    "file": "styles.css",
+    "line": 17,
+    "old": "--rose: #ff6b6b",
+    "purpose": "Rose accent token",
+    "new": "var(--accent-bright) / #38BDF8"
+  },
+  {
+    "file": "styles.css",
+    "line": 18,
+    "old": "--white: #f5f0ed",
+    "purpose": "Text primary token",
+    "new": "var(--text-primary) / #FFFFFF"
+  },
+  {
+    "file": "styles.css",
+    "line": 20,
+    "old": "--grey: rgba(245,240,237,0.55)",
+    "purpose": "Text muted token",
+    "new": "var(--text-muted) / #9FB0CC"
+  },
+  {
+    "file": "styles.css",
+    "line": 21,
+    "old": "--grey-dim: rgba(245,240,237,0.3)",
+    "purpose": "Text disabled token",
+    "new": "var(--text-disabled) / #5B6B8A"
+  },
+  {
+    "file": "styles.css",
+    "line": 22,
+    "old": "--grey-muted: rgba(245,240,237,0.15)",
+    "purpose": "Subtle border token",
+    "new": "var(--border-subtle) / #16264A"
+  },
+  {
+    "file": "styles.css",
+    "line": 23,
+    "old": "--border: rgba(245,240,237,0.07)",
+    "purpose": "Default border token",
+    "new": "var(--border-default) / #1E3358"
+  },
+  {
+    "file": "styles.css",
+    "line": 24,
+    "old": "--border-hover: rgba(192,57,43,0.3)",
+    "purpose": "Border hover accent token",
+    "new": "var(--border-accent) / #1E90FF"
+  },
+  {
+    "file": "styles.css",
+    "line": 25,
+    "old": "--saffron: #FF9933",
+    "purpose": "TECH wordmark brand color",
+    "new": "Option A (Cyan): var(--accent-bright) #38BDF8 / Option B: #FF9933"
+  },
+  {
+    "file": "styles.css",
+    "line": 26,
+    "old": "--green: #00c853",
+    "purpose": "YUVA wordmark brand color",
+    "new": "Option A (Blue): var(--accent) #1E90FF / Option B: #00C853"
+  },
+  {
+    "file": "styles.css",
+    "line": 53,
+    "old": ".accent-red { color: var(--red-light); }",
+    "purpose": "Red highlight in event title 'HACK'",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "styles.css",
+    "line": 80,
+    "old": "background: rgba(60, 15, 15, 0.45)",
+    "purpose": "Navbar floating pill backdrop fill",
+    "new": "background: rgba(15, 27, 51, 0.85)"
+  },
+  {
+    "file": "styles.css",
+    "line": 83,
+    "old": "border: 1px solid rgba(255, 255, 255, 0.22)",
+    "purpose": "Navbar pill border",
+    "new": "border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "styles.css",
+    "line": 97,
+    "old": "background: radial-gradient(circle at 30% 30%, #e74c3c, #8b1a1a)",
+    "purpose": "Nav logo circular badge background",
+    "new": "background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-deep))"
+  },
+  {
+    "file": "styles.css",
+    "line": 98,
+    "old": "box-shadow: 0 0 12px rgba(231, 76, 60, 0.4)",
+    "purpose": "Nav logo badge glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 135,
+    "old": "background: rgba(255, 255, 255, 0.12)",
+    "purpose": "Nav active page pill background",
+    "new": "background: var(--accent-soft); color: var(--accent-bright)"
+  },
+  {
+    "file": "styles.css",
+    "line": 150,
+    "old": "background: #050505",
+    "purpose": "Mobile nav menu backdrop",
+    "new": "background: var(--bg-surface); border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "styles.css",
+    "line": 162,
+    "old": "background: var(--red)",
+    "purpose": "Nav action / Sign In button fill",
+    "new": "background: var(--gradient-accent); color: var(--text-on-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 166,
+    "old": "box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4)",
+    "purpose": "Nav action button hover glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 203,
+    "old": "radial-gradient(ellipse at center,transparent 40%,rgba(5,5,5,0.6) 100%)",
+    "purpose": "Hero canvas vignette overlay",
+    "new": "radial-gradient(ellipse at center, transparent 35%, var(--bg-base) 100%)"
+  },
+  {
+    "file": "styles.css",
+    "line": 211,
+    "old": "linear-gradient(90deg,rgba(5,5,5,0.7)...)",
+    "purpose": "Hero text contrast backdrop gradient",
+    "new": "linear-gradient(90deg, rgba(5,11,24,0.85) 0%, rgba(5,11,24,0.4) 60%, transparent 100%)"
+  },
+  {
+    "file": "styles.css",
+    "line": 234,
+    "old": "border: 2px solid var(--red-glow)",
+    "purpose": "Hero phase 1 logo border",
+    "new": "border: 2px solid var(--border-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 258,
+    "old": "linear-gradient(to bottom,transparent,var(--black))",
+    "purpose": "Hero section bottom transition fade",
+    "new": "linear-gradient(to bottom, transparent, var(--bg-base))"
+  },
+  {
+    "file": "styles.css",
+    "line": 273,
+    "old": "background: var(--red-light)",
+    "purpose": "Hero sequence loader bar progress fill",
+    "new": "background: var(--gradient-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 286,
+    "old": "background:var(--white); color:var(--black)",
+    "purpose": "Primary button styling",
+    "new": "background: var(--gradient-accent); color: var(--text-on-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 287,
+    "old": "box-shadow: 0 12px 40px rgba(245,240,237,0.15)",
+    "purpose": "Primary button hover glow",
+    "new": "box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 292,
+    "old": "background: rgba(255,255,255,0.04)",
+    "purpose": "Ghost button hover background",
+    "new": "background: var(--accent-soft)"
+  },
+  {
+    "file": "styles.css",
+    "line": 328,
+    "old": "color: var(--red-light)",
+    "purpose": "Intro highlight word 'build'",
+    "new": "color: var(--accent-bright); background: var(--gradient-text); -webkit-background-clip: text"
+  },
+  {
+    "file": "styles.css",
+    "line": 358,
+    "old": "linear-gradient(90deg,var(--red),var(--red-light))",
+    "purpose": "Pillar card top gradient stripe",
+    "new": "var(--gradient-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 362,
+    "old": "background: rgba(20,8,8,0.9)",
+    "purpose": "Pillar card hover background",
+    "new": "background: var(--bg-surface-hover); border-color: var(--border-accent); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 390,
+    "old": "radial-gradient(ellipse, rgba(192, 57, 43, 0.12)...)",
+    "purpose": "Gallery ambient background radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 402,
+    "old": "linear-gradient(180deg, rgba(18, 10, 10, 0.7) 0%, rgba(8, 4, 4, 0.9) 100%)",
+    "purpose": "Gallery viewport frame dark-red gradient",
+    "new": "linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-elevated) 100%)"
+  },
+  {
+    "file": "styles.css",
+    "line": 406,
+    "old": "0 0 60px rgba(192, 57, 43, 0.1) inset",
+    "purpose": "Gallery viewport inner red vignette",
+    "new": "0 0 60px rgba(30, 144, 255, 0.12) inset"
+  },
+  {
+    "file": "styles.css",
+    "line": 437,
+    "old": "background: rgba(10, 5, 5, 0.85)",
+    "purpose": "Gallery control hint bar background",
+    "new": "background: rgba(15, 27, 51, 0.85); border-color: var(--border-default)"
+  },
+  {
+    "file": "styles.css",
+    "line": 453,
+    "old": "color: var(--red-light)",
+    "purpose": "Gallery hint SVG icon color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "styles.css",
+    "line": 454,
+    "old": "color: var(--red-light)",
+    "purpose": "Gallery hint SVG icon color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "styles.css",
+    "line": 551,
+    "old": "background: rgba(10,4,4,0.6)",
+    "purpose": "Event metadata items background",
+    "new": "background: var(--bg-surface); border: 1px solid var(--border-default)"
+  },
+  {
+    "file": "styles.css",
+    "line": 563,
+    "old": "background: rgba(192,57,43,0.2)",
+    "purpose": "Event theme pill hover fill",
+    "new": "background: rgba(30, 144, 255, 0.25); border-color: var(--border-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 574,
+    "old": "background: rgba(255,107,107,0.1); color: var(--rose)",
+    "purpose": "Event stage 2 circular index",
+    "new": "background: rgba(56, 189, 248, 0.15); color: var(--accent-bright); border: 2px solid var(--border-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 575,
+    "old": "linear-gradient(90deg,var(--red),var(--rose))",
+    "purpose": "Event stage connector progression bar",
+    "new": "var(--gradient-accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 596,
+    "old": "linear-gradient(90deg,var(--saffron),var(--red),var(--green))",
+    "purpose": "Founder card top decorative bar",
+    "new": "linear-gradient(90deg, var(--accent-bright), var(--accent), var(--accent-deep))"
+  },
+  {
+    "file": "styles.css",
+    "line": 598,
+    "old": "border: 2px solid rgba(192,57,43,0.15)",
+    "purpose": "Founder portrait frame border",
+    "new": "border: 2px solid var(--border-default)"
+  },
+  {
+    "file": "styles.css",
+    "line": 609,
+    "old": "border-left: 3px solid var(--red)",
+    "purpose": "Founder blockquote accent border",
+    "new": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "file": "styles.css",
+    "line": 617,
+    "old": "background: var(--red-dim); border-color: var(--border-hover); color: var(--red-light)",
+    "purpose": "Founder social button hover style",
+    "new": "background: var(--accent-soft); border-color: var(--border-accent); color: var(--accent-bright); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 663,
+    "old": "background: rgba(20,8,8,0.9)",
+    "purpose": "Impact stat card hover background",
+    "new": "background: var(--bg-surface-hover); border-color: var(--border-accent); box-shadow: var(--shadow-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 664,
+    "old": ".impact-num",
+    "purpose": "Impact metric number color",
+    "new": "background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent"
+  },
+  {
+    "file": "styles.css",
+    "line": 680,
+    "old": "radial-gradient(circle,rgba(192,57,43,0.1),transparent 60%)",
+    "purpose": "CTA card ambient red radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 683,
+    "old": "radial-gradient(circle,rgba(192,57,43,0.1),transparent 60%)",
+    "purpose": "CTA card ambient red radial glow",
+    "new": "var(--gradient-glow)"
+  },
+  {
+    "file": "styles.css",
+    "line": 692,
+    "old": "color: var(--red-light)",
+    "purpose": "CTA heading italic emphasis ('together')",
+    "new": "color: var(--accent-bright); background: var(--gradient-text); -webkit-background-clip: text"
+  },
+  {
+    "file": "styles.css",
+    "line": 718,
+    "old": "color: var(--red-light)",
+    "purpose": "Footer navigation link hover color",
+    "new": "color: var(--accent-bright)"
+  },
+  {
+    "file": "components\\Events.tsx",
+    "line": 41,
+    "old": "<span className=\"accent-red\">HACK</span>",
+    "purpose": "Highlight in event title",
+    "new": "Keep class; styled as var(--accent-bright) #38BDF8"
+  },
+  {
+    "file": "components\\CircularGallery.tsx",
+    "line": 259,
+    "old": "grad.addColorStop(0, '#0F1A30')",
+    "purpose": "WebGL fallback canvas gradient start",
+    "new": "#0F1A30 (var(--bg-surface))"
+  },
+  {
+    "file": "components\\CircularGallery.tsx",
+    "line": 260,
+    "old": "grad.addColorStop(1, '#1E3358')",
+    "purpose": "WebGL fallback canvas gradient end",
+    "new": "#1E3358 (var(--border-default))"
+  },
+  {
+    "file": "components\\CircularGallery.tsx",
+    "line": 263,
+    "old": "ctx.fillStyle = '#FFFFFF'",
+    "purpose": "WebGL fallback canvas text",
+    "new": "#FFFFFF (var(--text-primary))"
+  },
+  {
+    "file": "components\\CircularGallery.tsx",
+    "line": 580,
+    "old": "textColor: '#f5f0ed'",
+    "purpose": "3D circular gallery item text color",
+    "new": "#FFFFFF (var(--text-primary))"
+  },
+  {
+    "file": "circular-gallery.js",
+    "line": 526,
+    "old": "textColor: '#f5f0ed'",
+    "purpose": "Static 3D circular gallery item text color",
+    "new": "#FFFFFF (var(--text-primary))"
+  },
+  {
+    "file": "lib\\themeConstants.ts",
+    "line": 13,
+    "old": "NAVY_THEME.colors",
+    "purpose": "JavaScript theme tokens definition",
+    "new": "Synchronized exactly with Phase 1 design tokens"
+  },
+  {
+    "file": "app\\layout.tsx",
+    "line": 23,
+    "old": "export const viewport: Viewport",
+    "purpose": "Browser theme-color meta tag",
+    "new": "themeColor: '#050B18'"
+  },
+  {
+    "file": "index.html",
+    "line": 225,
+    "old": "<span class=\"accent-red\">HACK</span>",
+    "purpose": "Static HTML event title highlight",
+    "new": "Keep class; styled with var(--accent-bright)"
+  },
+  {
+    "file": "tech_yuva\\design.md",
+    "line": 15,
+    "old": "color.red=#c0392b, color.red-light=#e74c3c",
+    "purpose": "Design system documentation colors",
+    "new": "Update to Navy Blue Technical Theme tokens"
+  }
+]

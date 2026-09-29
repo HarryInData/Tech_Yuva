@@ -1,18 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const FRAME_COUNT = 270;
 const FRAME_DIR = '/assets/frames/';
-const FRAME_EXT = '.png';
-const SCRUB_SPEED = 0.7;
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 15;
+const FPS = 25; // 25 frames per second
+const FRAME_INTERVAL = 1000 / FPS; // 40ms per frame
 
-function getFramePath(index: number) {
+function getFramePath(index: number, ext = '.webp') {
   const num = String(index + 1).padStart(3, '0');
-  return `${FRAME_DIR}${num}${FRAME_EXT}`;
+  return `${FRAME_DIR}${num}${ext}`;
 }
 
 export default function HeroSequence() {
@@ -34,9 +32,13 @@ export default function HeroSequence() {
   const [loaderHidden, setLoaderHidden] = useState(false);
   const [loaderDisplayNone, setLoaderDisplayNone] = useState(false);
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  // References for continuous auto-play loop (prevents re-renders from breaking loop)
+  const isPlayingRef = useRef(true);
+  const currentFrameRef = useRef(0);
+  const isHoldingRef = useRef(false);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(FRAME_COUNT).fill(null));
 
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -52,73 +54,83 @@ export default function HeroSequence() {
     ];
     const words = [word1Ref.current, word2Ref.current, word3Ref.current];
 
-    const images: (HTMLImageElement | null)[] = new Array(FRAME_COUNT).fill(null);
+    const images = imagesRef.current;
     let loadedCount = 0;
-    let currentFrame = -1;
-    let isReady = false;
+    let renderedFrame = -1;
     let rafId: number | null = null;
-    let stInstance: ScrollTrigger | null = null;
-
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let lastTick = performance.now();
+    let holdTimeout: NodeJS.Timeout | null = null;
+    let isDestroyed = false;
 
     const resizeCanvas = () => {
-      if (!canvas || !ctx) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const isMobile = w <= 768;
-      const scale = isMobile ? Math.min(dpr, 1.5) : dpr;
+      if (isDestroyed || !canvas || !ctx) return;
+      try {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const isMobile = w <= 768;
+        const scale = isMobile ? 1.0 : dpr;
 
-      canvas.width = w * scale;
-      canvas.height = h * scale;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        canvas.width = Math.round(w * scale);
+        canvas.height = Math.round(h * scale);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
 
-      if (currentFrame >= 0 && images[currentFrame]) {
-        renderFrame(currentFrame);
+        const cur = currentFrameRef.current;
+        if (cur >= 0 && images[cur]) {
+          renderFrame(cur);
+        }
+      } catch (err) {
+        // Safe resize guard
       }
     };
 
     const renderFrame = (index: number) => {
-      if (!ctx || !images[index]) return;
-      if (index === currentFrame && isReady) return;
+      if (isDestroyed || !ctx || !images[index]) return;
+      try {
+        renderedFrame = index;
+        const img = images[index]!;
+        const cw = window.innerWidth;
+        const ch = window.innerHeight;
 
-      currentFrame = index;
-      const img = images[index]!;
-      const cw = window.innerWidth;
-      const ch = window.innerHeight;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.clearRect(0, 0, cw, ch);
 
-      ctx.clearRect(0, 0, cw, ch);
+        const naturalW = img.naturalWidth || 1080;
+        const naturalH = img.naturalHeight || 608;
+        const imgRatio = naturalW / naturalH;
+        const canvasRatio = cw / ch;
 
-      const imgRatio = img.naturalWidth / img.naturalHeight;
-      const canvasRatio = cw / ch;
+        let drawW: number;
+        let drawH: number;
+        let offsetX: number;
+        let offsetY: number;
 
-      let drawW: number;
-      let drawH: number;
-      let offsetX: number;
-      let offsetY: number;
+        if (canvasRatio > imgRatio) {
+          drawW = cw;
+          drawH = cw / imgRatio;
+          offsetX = 0;
+          offsetY = (ch - drawH) / 2;
+        } else {
+          drawH = ch;
+          drawW = ch * imgRatio;
+          offsetX = (cw - drawW) / 2;
+          offsetY = 0;
+        }
 
-      if (canvasRatio > imgRatio) {
-        drawW = cw;
-        drawH = cw / imgRatio;
-        offsetX = 0;
-        offsetY = (ch - drawH) / 2;
-      } else {
-        drawH = ch;
-        drawW = ch * imgRatio;
-        offsetX = (cw - drawW) / 2;
-        offsetY = 0;
+        ctx.drawImage(img, Math.round(offsetX), Math.round(offsetY), Math.round(drawW), Math.round(drawH));
+      } catch (err) {
+        // Draw guard
       }
-
-      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
     };
 
     const updateLoaderProgress = () => {
       if (progressBarRef.current) {
-        const pct = Math.min((loadedCount / FRAME_COUNT) * 100, 100);
+        const pct = Math.min(Math.round((loadedCount / FRAME_COUNT) * 100), 100);
         progressBarRef.current.style.width = pct + '%';
       }
     };
@@ -132,28 +144,43 @@ export default function HeroSequence() {
 
         const img = new Image();
         img.onload = () => {
+          if (isDestroyed) return resolve(null);
           images[index] = img;
           loadedCount++;
           updateLoaderProgress();
           resolve(img);
         };
         img.onerror = () => {
-          loadedCount++;
-          updateLoaderProgress();
-          resolve(null);
+          // Automatic PNG fallback if WebP fails
+          const fallbackImg = new Image();
+          fallbackImg.onload = () => {
+            if (isDestroyed) return resolve(null);
+            images[index] = fallbackImg;
+            loadedCount++;
+            updateLoaderProgress();
+            resolve(fallbackImg);
+          };
+          fallbackImg.onerror = () => {
+            if (isDestroyed) return resolve(null);
+            loadedCount++;
+            updateLoaderProgress();
+            resolve(null);
+          };
+          fallbackImg.src = getFramePath(index, '.png');
         };
-        img.src = getFramePath(index);
+        img.src = getFramePath(index, '.webp');
       });
     };
 
     const hideLoader = () => {
       setLoaderHidden(true);
       setTimeout(() => {
-        setLoaderDisplayNone(true);
-      }, 700);
+        if (!isDestroyed) setLoaderDisplayNone(true);
+      }, 600);
     };
 
     const showPhase = (phaseIndex: number) => {
+      if (isDestroyed) return;
       phases.forEach((el, i) => {
         if (!el) return;
         if (i === phaseIndex) {
@@ -191,58 +218,83 @@ export default function HeroSequence() {
       }
     };
 
-    const initScrollAnimation = () => {
-      if (!canvas || !ctx || !heroContainer) return;
+    // Auto-Play animation loop
+    const autoPlayLoop = (now: number) => {
+      if (isDestroyed) return;
 
-      const frameAnimation = { frame: 0 };
+      if (isPlayingRef.current && !isHoldingRef.current) {
+        const delta = now - lastTick;
+        if (delta >= FRAME_INTERVAL) {
+          const framesToAdvance = Math.max(1, Math.floor(delta / FRAME_INTERVAL));
+          lastTick = now - (delta % FRAME_INTERVAL);
 
-      const tween = gsap.to(frameAnimation, {
-        frame: FRAME_COUNT - 1,
-        snap: 'frame',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroContainer,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: SCRUB_SPEED,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const frameIndex = Math.round(progress * (FRAME_COUNT - 1));
-            const clampedIndex = Math.max(0, Math.min(frameIndex, FRAME_COUNT - 1));
+          let nextFrame = currentFrameRef.current + framesToAdvance;
 
-            let targetFrame = clampedIndex;
-            if (!images[targetFrame]) {
-              for (let k = targetFrame; k >= 0; k--) {
+          if (nextFrame >= FRAME_COUNT - 1) {
+            // Reached final CTA phase
+            nextFrame = FRAME_COUNT - 1;
+            currentFrameRef.current = nextFrame;
+            renderFrame(nextFrame);
+            updateTextPhases(1);
+
+            // Hold on CTA phase for 3.5 seconds so user can read/click, then loop back
+            isHoldingRef.current = true;
+            holdTimeout = setTimeout(() => {
+              if (isDestroyed) return;
+              currentFrameRef.current = 0;
+              isHoldingRef.current = false;
+              lastTick = performance.now();
+              renderFrame(0);
+              updateTextPhases(0);
+            }, 3500);
+          } else {
+            currentFrameRef.current = nextFrame;
+
+            // Pick nearest loaded frame if current hasn't finished loading
+            let drawIdx = nextFrame;
+            if (!images[drawIdx]) {
+              for (let k = drawIdx; k >= 0; k--) {
                 if (images[k]) {
-                  targetFrame = k;
+                  drawIdx = k;
                   break;
                 }
               }
             }
-
-            if (targetFrame !== currentFrame) {
-              if (rafId) cancelAnimationFrame(rafId);
-              rafId = requestAnimationFrame(() => renderFrame(targetFrame));
+            if (drawIdx !== renderedFrame && images[drawIdx]) {
+              renderFrame(drawIdx);
             }
 
+            const progress = nextFrame / (FRAME_COUNT - 1);
             updateTextPhases(progress);
-          },
-        },
-      });
-
-      stInstance = tween.scrollTrigger ?? null;
-    };
-
-    const loadFrames = async () => {
-      await loadImage(0);
-      if (images[0]) {
-        resizeCanvas();
-        renderFrame(0);
-        hideLoader();
-        isReady = true;
+          }
+        }
       }
 
-      for (let i = 1; i < FRAME_COUNT; i += BATCH_SIZE) {
+      rafId = requestAnimationFrame(autoPlayLoop);
+    };
+
+    // Start loading frames and launch auto-play immediately
+    const startSequence = async () => {
+      // Preload first 20 frames for instant smooth playback
+      const initialLoads: Promise<HTMLImageElement | null>[] = [];
+      for (let i = 0; i < 20; i++) {
+        initialLoads.push(loadImage(i));
+      }
+      await Promise.all(initialLoads);
+
+      if (isDestroyed) return;
+      resizeCanvas();
+      if (images[0]) renderFrame(0);
+      hideLoader();
+      showPhase(0);
+
+      // Start auto-play loop immediately
+      lastTick = performance.now();
+      rafId = requestAnimationFrame(autoPlayLoop);
+
+      // Stream the remaining frames in the background
+      for (let i = 20; i < FRAME_COUNT; i += BATCH_SIZE) {
+        if (isDestroyed) break;
         const batch: Promise<HTMLImageElement | null>[] = [];
         for (let j = i; j < Math.min(i + BATCH_SIZE, FRAME_COUNT); j++) {
           batch.push(loadImage(j));
@@ -250,6 +302,25 @@ export default function HeroSequence() {
         await Promise.all(batch);
       }
     };
+
+    startSequence();
+
+    // Pause when hero is out of view to save GPU/battery
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          isPlayingRef.current = false;
+        } else {
+          isPlayingRef.current = true;
+          lastTick = performance.now();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (heroContainer) {
+      observer.observe(heroContainer);
+    }
 
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
@@ -259,29 +330,15 @@ export default function HeroSequence() {
 
     window.addEventListener('resize', handleResize);
 
-    if (prefersReducedMotion) {
-      loadImage(0).then(() => {
-        if (images[0]) {
-          resizeCanvas();
-          renderFrame(0);
-        }
-        hideLoader();
-      });
-      showPhase(0);
-      if (heroContainer) heroContainer.style.height = '100vh';
-    } else {
-      loadFrames();
-      initScrollAnimation();
-      showPhase(0);
-    }
-
     return () => {
+      isDestroyed = true;
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimer);
+      if (holdTimeout) clearTimeout(holdTimeout);
       if (rafId) cancelAnimationFrame(rafId);
-      if (stInstance) stInstance.kill();
+      observer.disconnect();
     };
-  }, []);
+  }, []); // Run ONCE on mount
 
   return (
     <section className="hero-sequence" id="hero">
@@ -303,11 +360,14 @@ export default function HeroSequence() {
         </div>
       </div>
 
-      {/* Scroll Container: 450vh tall, canvas sticks inside */}
+      {/* Hero Canvas Container: full-screen cinematic experience with automatic animation */}
       <div className="hero-scroll-container" id="heroScrollContainer" ref={containerRef}>
         <div className="hero-sticky">
           {/* Canvas */}
           <canvas id="heroCanvas" ref={canvasRef}></canvas>
+
+          {/* Subtle technical grid overlay */}
+          <div className="hero-grid-pattern"></div>
 
           {/* Subtle vignette overlay */}
           <div className="hero-vignette"></div>
@@ -315,10 +375,10 @@ export default function HeroSequence() {
           {/* Left readability gradient */}
           <div className="hero-text-gradient"></div>
 
-          {/* Text Overlay — 5 phases synced to scroll */}
+          {/* Text Overlay — 5 phases synced to automatic playback */}
           <div className="hero-overlay">
-            {/* Phase 1: 0–20% — Brand identity */}
-            <div className="hero-phase phase-1" id="heroPhase1" ref={phase1Ref}>
+            {/* Phase 1: Brand identity */}
+            <div className="hero-phase phase-1 active" id="heroPhase1" ref={phase1Ref}>
               <img src="/assets/logo.jpg" alt="Tech Yuva" className="phase-logo" />
               <h1 className="phase-heading-xl">
                 <span className="brand-tech">TECH</span> <span className="brand-yuva">YUVA</span>
@@ -326,7 +386,7 @@ export default function HeroSequence() {
               <p className="phase-tagline">Where Youth Meet to Build Future Tech</p>
             </div>
 
-            {/* Phase 2: 20–40% — Primary statement */}
+            {/* Phase 2: Primary statement */}
             <div className="hero-phase phase-2" id="heroPhase2" ref={phase2Ref}>
               <p className="phase-statement">
                 Building future tech<br />
@@ -334,12 +394,12 @@ export default function HeroSequence() {
               </p>
             </div>
 
-            {/* Phase 3: 40–60% — Minimal / VR dominant */}
+            {/* Phase 3: Minimal / VR dominant */}
             <div className="hero-phase phase-3" id="heroPhase3" ref={phase3Ref}>
               <p className="phase-whisper">Enter the future.</p>
             </div>
 
-            {/* Phase 4: 60–80% — BUILD. CONNECT. INNOVATE. */}
+            {/* Phase 4: BUILD. CONNECT. INNOVATE. */}
             <div className="hero-phase phase-4" id="heroPhase4" ref={phase4Ref}>
               <div className="phase-words">
                 <span className="phase-word" id="word1" ref={word1Ref}>BUILD.</span>
@@ -348,18 +408,26 @@ export default function HeroSequence() {
               </div>
             </div>
 
-            {/* Phase 5: 80–100% — Final CTA */}
+            {/* Phase 5: Final CTA */}
             <div className="hero-phase phase-5" id="heroPhase5" ref={phase5Ref}>
               <p className="phase-final-heading">
                 Where Young Minds<br />
                 Build What&apos;s Next.
               </p>
               <div className="phase-cta-group">
-                <a href="#join" className="btn btn-white">Explore Tech Yuva</a>
+                <button type="button" className="btn btn-white" data-join-form="true">Join Community</button>
                 <a href="#hackathon" className="btn btn-ghost">Explore Events</a>
               </div>
             </div>
           </div>
+
+          {/* Scroll Down Indicator */}
+          <a href="#intro" className="hero-scroll-indicator" aria-label="Scroll to explore">
+            <span>Scroll</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+            </svg>
+          </a>
         </div>
       </div>
 

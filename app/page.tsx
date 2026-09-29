@@ -10,6 +10,7 @@ import Impact from '@/components/Impact';
 import Cta from '@/components/Cta';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
+import GoogleFormModal from '@/components/GoogleFormModal';
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollReveal />
+      <GoogleFormModal />
     </>
   );
 }

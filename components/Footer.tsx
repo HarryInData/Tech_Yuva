@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Community</h4>
             <ul>
-              <li><a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer">Join Community</a></li>
+              <li><a href="#join" data-join-form="true">Join Community</a></li>
               <li><a href="#hackathon">Events &amp; Hackathons</a></li>
               <li><a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer">Partner With Us</a></li>
               <li><a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer">Become a Sponsor</a></li>

@@ -523,7 +523,7 @@ export function initGallery() {
     const gallery = new AppCore(container, {
         items: ECOSYSTEM_ITEMS,
         bend: 3.5,
-        textColor: '#f5f0ed',
+        textColor: '#FFFFFF',
         borderRadius: 0.08,
         font: 'bold 26px Outfit, sans-serif',
         scrollSpeed: 2.5,

@@ -1,0 +1,124 @@
+/* =====================================================
+   TECH YUVA — NAVY BLUE TECHNICAL DESIGN SYSTEM TOKENS
+   Single Source of Truth for all color and elevation styles
+   ===================================================== */
+
+:root {
+  /* ==========================================
+     BACKGROUNDS
+     ========================================== */
+  --bg-base:            #050B18;   /* page background, deepest navy */
+  --bg-elevated:        #0A1428;   /* alternate sections */
+  --bg-surface:         #0F1B33;   /* cards, navbar pill, modals */
+  --bg-surface-hover:   #14264A;
+  --bg-surface-active:  #1A3160;
+  --bg-overlay:         rgba(5, 11, 24, 0.80);  /* modal backdrops */
+  --bg-input:           #0B1730;
+
+  /* ==========================================
+     BORDERS
+     ========================================== */
+  --border-subtle:      #16264A;
+  --border-default:     #1E3358;
+  --border-strong:      #2C4A82;
+  --border-accent:      #1E90FF;
+
+  /* ==========================================
+     BRAND / ACCENT
+     ========================================== */
+  --accent:             #1E90FF;   /* primary electric blue */
+  --accent-hover:       #3AA0FF;
+  --accent-active:      #1478D6;
+  --accent-bright:      #38BDF8;   /* cyan highlight */
+  --accent-deep:        #2563EB;
+  --accent-soft:        rgba(30, 144, 255, 0.12);  /* tinted backgrounds */
+  --accent-glow:        rgba(30, 144, 255, 0.35);  /* glow shadows */
+
+  /* ==========================================
+     TEXT
+     ========================================== */
+  --text-primary:       #FFFFFF;
+  --text-secondary:     #C7D3E8;
+  --text-muted:         #9FB0CC;
+  --text-disabled:      #5B6B8A;
+  --text-on-accent:     #FFFFFF;
+  --text-link:          #38BDF8;
+  --text-link-hover:    #7DD3FC;
+
+  /* ==========================================
+     STATUS
+     ========================================== */
+  --success:            #22C55E;
+  --warning:            #F59E0B;
+  --error:              #EF4444;   /* the only place red may appear */
+  --info:               #38BDF8;
+
+  /* ==========================================
+     BRAND TITLE HERITAGE (Approved Option B)
+     ========================================== */
+  --saffron:            #FF9933;   /* TECH Indian saffron */
+  --green:              #00C853;   /* YUVA Indian green */
+
+  /* ==========================================
+     GRADIENTS
+     ========================================== */
+  --gradient-hero:      linear-gradient(135deg, #050B18 0%, #0A1428 45%, #0F2A5C 100%);
+  --gradient-accent:    linear-gradient(135deg, #1E90FF 0%, #2563EB 100%);
+  --gradient-text:      linear-gradient(90deg, #38BDF8 0%, #1E90FF 100%);
+  --gradient-card:      linear-gradient(180deg, #0F1B33 0%, #0A1428 100%);
+  --gradient-glow:      radial-gradient(circle at 50% 0%, rgba(30, 144, 255, 0.25), transparent 60%);
+
+  /* ==========================================
+     SHADOWS / GLOWS
+     ========================================== */
+  --shadow-sm:          0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md:          0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow:        0 0 24px rgba(30, 144, 255, 0.25);
+  --shadow-glow-strong: 0 0 40px rgba(30, 144, 255, 0.45);
+
+  /* ==========================================
+     LEGACY TOKEN ALIASES (Strictly Mapped)
+     ========================================== */
+  --black:              var(--bg-base);
+  --black-warm:         var(--bg-elevated);
+  --black-card:         var(--bg-surface);
+  --red:                var(--accent);
+  --red-light:          var(--accent-bright);
+  --red-dim:            var(--accent-soft);
+  --red-glow:           var(--accent-glow);
+  --crimson:            var(--accent-deep);
+  --rose:               var(--accent-bright);
+  --white:              var(--text-primary);
+  --white-pure:         #ffffff;
+  --grey:               var(--text-muted);
+  --grey-dim:           var(--text-disabled);
+  --grey-muted:         var(--border-subtle);
+  --border:             var(--border-default);
+  --border-hover:       var(--border-accent);
+
+  /* Modal & System Aliases */
+  --navy-bg-deep:       var(--bg-base);
+  --navy-bg-sub:        var(--bg-elevated);
+  --navy-surface:       var(--bg-surface);
+  --navy-surface-elevated: var(--bg-surface-hover);
+  --navy-border:        var(--border-default);
+  --navy-border-focus:  var(--accent);
+  --navy-blue:          var(--accent);
+  --navy-blue-hover:    var(--accent-hover);
+  --navy-blue-glow:     var(--accent-glow);
+  --navy-text:          var(--text-primary);
+  --navy-text-muted:    var(--text-muted);
+  --navy-text-dim:      var(--text-disabled);
+  --navy-success:       var(--success);
+  --navy-error:         var(--error);
+
+  /* TYPOGRAPHY & LAYOUT */
+  --font:               'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono:               'JetBrains Mono', 'Fira Code', monospace;
+  --container:          1200px;
+  --section-py:         clamp(100px, 12vw, 160px);
+  --ease:               cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast:             200ms var(--ease);
+  --t-norm:             400ms var(--ease);
+  --t-slow:             700ms var(--ease);
+}

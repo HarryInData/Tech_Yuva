@@ -84,40 +84,54 @@ This repository contains the complete frontend web application, migrated from a 
 
 ```text
 tech_yuva/
+├── backend/                # Production Node.js + Express + Supabase API service
+│   ├── src/
+│   │   ├── config/         # env validation (Zod) & Supabase client (service role)
+│   │   ├── controllers/    # community, events, cohorts, stats, contact, admin
+│   │   ├── middleware/     # auth, requireRole, validate, rateLimit, errorHandler
+│   │   ├── routes/         # versioned URL definitions under /api/v1
+│   │   ├── services/       # business logic: email, events, analytics & CSV export
+│   │   ├── templates/      # Navy-blue dark HTML email templates (Nodemailer)
+│   │   ├── utils/          # ApiError, ApiResponse, logger, csvExport
+│   │   ├── validators/     # Zod input validation schemas
+│   │   ├── app.js          # Express app (helmet, cors, rate-limit)
+│   │   └── server.js       # Starts server on port 5000 with graceful shutdown
+│   ├── supabase/
+│   │   ├── migrations/     # 001 schema, 002 RLS policies, 003 storage buckets
+│   │   └── seed.sql        # Seed data (DropHack'26, New Cohort 2026, metrics)
+│   ├── tests/              # Jest & Supertest integration suite (100% passing)
+│   ├── .env.example        # Environment variables template
+│   ├── package.json        # Backend dependencies & test scripts
+│   └── README.md           # Step-by-step Supabase guide & deployment instructions
 ├── app/
-│   ├── globals.css         # Complete design system tokens, layout & animations
+│   ├── globals.css         # Design system tokens, Navy theme tokens & modal styles
 │   ├── layout.tsx          # Root layout, Google Fonts, and Next.js SEO metadata
 │   └── page.tsx            # Main page assembling all ecosystem sections
 ├── components/
+│   ├── AdmissionBadge.tsx  # Dynamic badge reading admission status from API
+│   ├── AuthModal.tsx       # Navy dark themed modal for Login, Sign Up, & Forgot Password
 │   ├── CircularGallery.tsx # 3D WebGL cylindrical carousel component (OGL)
-│   ├── Cta.tsx             # Community action card & WhatsApp join link
-│   ├── Events.tsx          # DropHack'26 hackathon showcase
+│   ├── Cta.tsx             # Community action card with Join Community application modal
+│   ├── EventRegisterModal.tsx # Direct RSVP ticket reservation modal
+│   ├── Events.tsx          # DropHack'26 hackathon showcase with RSVP integration
 │   ├── Footer.tsx          # 4-column navigation grid & guild footer
 │   ├── Founder.tsx         # Leadership card for founder Lakshay Soni
 │   ├── HeroSequence.tsx    # 270-frame canvas scroll sequence with GSAP
-│   ├── Impact.tsx          # Viewport-animated milestone statistics
+│   ├── Impact.tsx          # Viewport-animated live statistics from backend API
 │   ├── Intro.tsx           # Editorial typography & guild overview
-│   ├── Navbar.tsx          # Floating glass pill navbar & responsive drawer
+│   ├── JoinCommunityModal.tsx # Application form with Zod validation & welcome email
+│   ├── Navbar.tsx          # Floating glass pill navbar with auth and admission badge
 │   ├── Pathway.tsx         # 5-step builder journey timeline
 │   ├── Pillars.tsx         # 5 ecosystem cards with 3D mouse tilt
 │   └── ScrollReveal.tsx    # Viewport IntersectionObserver & smooth scroll
+├── lib/
+│   ├── apiClient.ts        # Frontend HTTP client for Express /api/v1 backend
+│   ├── supabaseClient.ts   # Browser Supabase client (public anon key)
+│   └── themeConstants.ts   # Navy-blue dark theme tokens & color variables
 ├── public/
-│   └── assets/
-│       ├── drophack.png
-│       ├── flashcard1.png
-│       ├── flashcard2.png
-│       ├── flashcard3.png
-│       ├── founder.jpg
-│       ├── logo.jpg
-│       └── frames/         # 270 sequence PNG frames (001.png - 270.png)
-├── tech_yuva/
-│   ├── design.md           # Design system guidance & WCAG AA standards
-│   └── skills.md           # Ecosystem skills specification
-├── next.config.js          # Next.js build configuration (unoptimized images)
-├── package.json            # Project dependencies and script runner
-├── tsconfig.json           # TypeScript configuration
-├── types.d.ts              # Ambient type declarations for OGL
-└── README.md               # Project documentation
+│   └── assets/             # Images, posters, and 270 sequence PNG frames
+├── package.json            # Frontend Next.js dependencies
+└── README.md               # Main project documentation
 ```
 
 ---

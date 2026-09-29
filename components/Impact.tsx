@@ -1,8 +1,14 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { apiClient } from '@/lib/apiClient';
 
-const IMPACT_ITEMS = [
+interface StatItem {
+  count: number;
+  label: string;
+}
+
+const DEFAULT_IMPACT_ITEMS: StatItem[] = [
   { count: 500, label: 'Active Members' },
   { count: 20, label: 'Events Hosted' },
   { count: 80, label: 'Prototypes Built' },
@@ -28,6 +34,27 @@ function animateCounter(el: HTMLElement, target: number) {
 
 export default function Impact() {
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const [items, setItems] = useState<StatItem[]>(DEFAULT_IMPACT_ITEMS);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiClient
+      .getStats()
+      .then((stats) => {
+        if (!isMounted || !stats) return;
+        setItems([
+          { count: stats.activeMembers || 500, label: 'Active Members' },
+          { count: stats.eventsHosted || 20, label: 'Events Hosted' },
+          { count: stats.prototypesBuilt || 80, label: 'Prototypes Built' },
+          { count: stats.buildersImpacted || 1000, label: 'Builders Impacted' },
+        ]);
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const grid = gridRef.current;
@@ -60,13 +87,13 @@ export default function Impact() {
     return () => {
       counterObserver.disconnect();
     };
-  }, []);
+  }, [items]);
 
   return (
     <section className="impact-section" id="impact">
       <div className="container">
         <div className="impact-grid" ref={gridRef}>
-          {IMPACT_ITEMS.map((item) => (
+          {items.map((item) => (
             <div className="impact-card reveal-up" data-count={item.count} key={item.label}>
               <span className="impact-num">{item.count}+</span>
               <span className="impact-label">{item.label}</span>

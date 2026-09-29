@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
+    "dev:backend": "cd backend && npm run dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 8080"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
     "gsap": "^3.12.5",
     "next": "^14.2.15",
     "ogl": "^0.0.116",
