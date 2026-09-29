@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Yuva — Where Youth Meet to Build Future Tech</title>
+    <meta name="description" content="Tech Yuva is a student-led innovation guild empowering the next generation of builders through AI, Web3, production systems, and startup culture. Join 500+ active members building future tech.">
+    <meta property="og:title" content="Tech Yuva — Where Youth Meet to Build Future Tech">
+    <meta property="og:description" content="Student-led innovation guild. Build real systems. Deploy real products. Join the builder community.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.techyuva.org/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ============================================
+         NAVIGATION — Glassmorphism Floating Pill
+         ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-glass-pill">
+            <a href="#" class="nav-logo-badge" aria-label="Tech Yuva Home">
+                <img src="assets/logo.jpg" alt="Tech Yuva Logo" class="nav-logo-img">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#intro">About</a></li>
+                <li><a href="#pillars">Ecosystem</a></li>
+                <li><a href="#showcase">Showcase</a></li>
+                <li><a href="#hackathon">Events</a></li>
+                <li><a href="#founder">Founder</a></li>
+                <li><a href="#join">Community</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer" class="nav-circle-btn" aria-label="Visit Tech Yuva Website">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+                <a href="mailto:techyuva.org@gmail.com" class="nav-circle-btn" aria-label="Contact Tech Yuva">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+                <button class="nav-circle-btn nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO — Scroll-Driven Cinematic Canvas
+         ============================================ -->
+    <section class="hero-sequence" id="hero">
+        <!-- Loading State -->
+        <div class="hero-loader" id="heroLoader">
+            <div class="loader-content">
+                <span class="loader-brand"><span class="brand-tech">TECH</span> <span class="brand-yuva">YUVA</span></span>
+                <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+                <span class="loader-text">Loading experience...</span>
+            </div>
+        </div>
+
+        <!-- Scroll Container: 450vh tall, canvas sticks inside -->
+        <div class="hero-scroll-container" id="heroScrollContainer">
+            <div class="hero-sticky">
+                <!-- Canvas -->
+                <canvas id="heroCanvas"></canvas>
+
+                <!-- Subtle vignette overlay -->
+                <div class="hero-vignette"></div>
+
+                <!-- Left readability gradient -->
+                <div class="hero-text-gradient"></div>
+
+                <!-- Text Overlay — 5 phases synced to scroll -->
+                <div class="hero-overlay">
+                    <!-- Phase 1: 0–20% — Brand identity -->
+                    <div class="hero-phase phase-1" id="heroPhase1">
+                        <img src="assets/logo.jpg" alt="Tech Yuva" class="phase-logo">
+                        <h1 class="phase-heading-xl">
+                            <span class="brand-tech">TECH</span> <span class="brand-yuva">YUVA</span>
+                        </h1>
+                        <p class="phase-tagline">Where Youth Meet to Build Future Tech</p>
+                    </div>
+
+                    <!-- Phase 2: 20–40% — Primary statement -->
+                    <div class="hero-phase phase-2" id="heroPhase2">
+                        <p class="phase-statement">
+                            Building future tech<br>
+                            with ambitious youth.
+                        </p>
+                    </div>
+
+                    <!-- Phase 3: 40–60% — Minimal / VR dominant -->
+                    <div class="hero-phase phase-3" id="heroPhase3">
+                        <p class="phase-whisper">Enter the future.</p>
+                    </div>
+
+                    <!-- Phase 4: 60–80% — BUILD. CONNECT. INNOVATE. -->
+                    <div class="hero-phase phase-4" id="heroPhase4">
+                        <div class="phase-words">
+                            <span class="phase-word" id="word1">BUILD.</span>
+                            <span class="phase-word" id="word2">CONNECT.</span>
+                            <span class="phase-word" id="word3">INNOVATE.</span>
+                        </div>
+                    </div>
+
+                    <!-- Phase 5: 80–100% — Final CTA -->
+                    <div class="hero-phase phase-5" id="heroPhase5">
+                        <p class="phase-final-heading">Where Young Minds<br>Build What's Next.</p>
+                        <div class="phase-cta-group">
+                            <a href="#join" class="btn btn-white">Explore Tech Yuva</a>
+                            <a href="#hackathon" class="btn btn-ghost">Explore Events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom transition gradient -->
+        <div class="hero-transition"></div>
+    </section>
+
+    <!-- ============================================
+         INTRO — Editorial Typography
+         ============================================ -->
+    <section class="intro-section" id="intro">
+        <div class="container">
+            <div class="intro-text">
+                <p class="intro-large reveal-text">Technology isn't just<br>something we use.</p>
+                <p class="intro-large intro-accent reveal-text">It's something<br>we <em>build</em>.</p>
+            </div>
+            <div class="intro-body reveal-up">
+                <p>Tech Yuva is a student-led innovation guild from New Delhi — empowering the next generation of builders through AI, Web3, production systems, and startup culture. We don't just teach. We <strong>deploy alongside</strong> our builders.</p>
+                <p>Zero fees. Real projects. Actual deployment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PILLARS — What We Do
+         ============================================ -->
+    <section class="pillars-section" id="pillars">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-eyebrow">What We Do</span>
+                <h2 class="section-heading">Five pillars.<br>One mission.</h2>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card reveal-up">
+                    <span class="pillar-number">01</span>
+                    <h3 class="pillar-title">Build</h3>
+                    <p class="pillar-desc">Scalable APIs, full-stack architectures, production backends. No toy projects — real systems that handle real users.</p>
+                </div>
+                <div class="pillar-card reveal-up">
+                    <span class="pillar-number">02</span>
+                    <h3 class="pillar-title">Learn</h3>
+                    <p class="pillar-desc">Hands-on AI bootcamps, LLM embeddings, Web3 smart contracts, cloud deployment. Learning by shipping.</p>
+                </div>
+                <div class="pillar-card reveal-up">
+                    <span class="pillar-number">03</span>
+                    <h3 class="pillar-title">Connect</h3>
+                    <p class="pillar-desc">500+ builders, corporate tech talks, open-source collaboration. A network of people who build, not just talk.</p>
+                </div>
+                <div class="pillar-card reveal-up">
+                    <span class="pillar-number">04</span>
+                    <h3 class="pillar-title">Compete</h3>
+                    <p class="pillar-desc">36-hour hackathons, coding sprints, DropHack events. Solve unknown problems under real pressure.</p>
+                </div>
+                <div class="pillar-card reveal-up">
+                    <span class="pillar-number">05</span>
+                    <h3 class="pillar-title">Innovate</h3>
+                    <p class="pillar-desc">PitchCraft Accelerator — angel reviews, funding connections, mentorship, and cloud credits to launch your startup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CIRCULAR GALLERY — Empowerment Ecosystem Showcase
+         ============================================ -->
+    <section class="circular-gallery-section" id="showcase">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-eyebrow">Empowerment Ecosystem</span>
+                <h2 class="section-heading">Empowerment.<br>Ecosystem. Community.</h2>
+                <p class="section-sub">Interact with our 3D circular ecosystem gallery — drag or scroll horizontally to explore our pillars, hackathons, and builder community.</p>
+            </div>
+            
+            <div class="circular-gallery-wrapper reveal-up">
+                <div id="circularGallery" class="circular-gallery-viewport"></div>
+                <div class="gallery-controls">
+                    <span class="gallery-hint">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3M19 9l3 3-3 3M2 12h20"/></svg>
+                        Drag or scroll horizontally to rotate gallery
+                    </span>
+                    <button id="resetGalleryBtn" class="gallery-reset-btn" type="button">
+                        Reset View
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         EVENTS — DropHack'26
+         ============================================ -->
+    <section class="events-section" id="hackathon">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-eyebrow">Upcoming Event</span>
+                <h2 class="section-heading">HACK. BUILD. SHIP.</h2>
+            </div>
+            <div class="event-showcase">
+                <div class="event-poster-wrap reveal-up">
+                    <img src="assets/drophack.png" alt="DropHack'26 — SIEC Community Hackathon, Tech Yuva as Community Partner" class="event-poster">
+                    <div class="event-badge">
+                        <span class="badge-dot"></span>
+                        Community Partner
+                    </div>
+                </div>
+                <div class="event-info reveal-up">
+                    <span class="event-partner-tag">SIEC × Tech Yuva</span>
+                    <h3 class="event-title">DROP<span class="accent-red">HACK</span>'26</h3>
+                    <p class="event-tagline">Unknown Problems. Unstoppable Minds. 10 Hours. Zero Excuses.</p>
+
+                    <div class="event-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Date</span>
+                            <span class="meta-value">29 August 2026</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">10 Hours Offline</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Prize Pool</span>
+                            <span class="meta-value">₹50,000+</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Team Size</span>
+                            <span class="meta-value">2–4 Members</span>
+                        </div>
+                    </div>
+
+                    <div class="event-themes">
+                        <span class="theme-pill">FinTech</span>
+                        <span class="theme-pill">AI</span>
+                        <span class="theme-pill">Web3</span>
+                        <span class="theme-pill">Cybersecurity</span>
+                        <span class="theme-pill">Healthcare</span>
+                    </div>
+
+                    <div class="event-stages">
+                        <div class="stage-item">
+                            <span class="stage-num">1</span>
+                            <div><strong>Online Qualifier</strong><br><span class="muted">15 Aug 2026</span></div>
+                        </div>
+                        <div class="stage-line"></div>
+                        <div class="stage-item">
+                            <span class="stage-num stage-num-alt">2</span>
+                            <div><strong>Offline Finale</strong><br><span class="muted">29 Aug 2026</span></div>
+                        </div>
+                    </div>
+
+                    <a href="https://unstop.com/hackathons/drophack-siec-community-1701822" target="_blank" rel="noopener noreferrer" class="btn btn-white event-cta-btn">
+                        Register on Unstop <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOUNDER
+         ============================================ -->
+    <section class="founder-section" id="founder">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-eyebrow">Leadership</span>
+                <h2 class="section-heading">Meet the Visionary</h2>
+            </div>
+            <div class="founder-card reveal-up">
+                <div class="founder-img-wrap">
+                    <img src="assets/founder.jpg" alt="Lakshay Soni — Founder, Tech Yuva" class="founder-img">
+                </div>
+                <div class="founder-body">
+                    <span class="founder-label">Founder & Visionary</span>
+                    <h3 class="founder-name">Lakshay Soni</h3>
+                    <p class="founder-role">Founder, Tech Yuva</p>
+                    <blockquote class="founder-quote">
+                        <p>"Students don't need more tutorials. They need to deploy, break things, fix them, and ship — alongside people who've done it before. That's what Tech Yuva is about."</p>
+                    </blockquote>
+                    <div class="founder-socials">
+                        <a href="https://www.linkedin.com/in/techyuva/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 110-4.128 2.064 2.064 0 010 4.128zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/techyuva_" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PATHWAY
+         ============================================ -->
+    <section class="pathway-section" id="pathway">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-eyebrow">Pathway</span>
+                <h2 class="section-heading">The Builder Journey</h2>
+                <p class="section-sub">From student to system architect — a cohort-based journey through real-world engineering.</p>
+            </div>
+            <div class="pathway-list">
+                <div class="path-step reveal-up"><span class="path-num">01</span><div><h4>Apply & Join</h4><p>Submit your GitHub profile, share your passion, and join the zero-fee builder community.</p></div></div>
+                <div class="path-connector"></div>
+                <div class="path-step reveal-up"><span class="path-num">02</span><div><h4>Learn by Building</h4><p>AI bootcamps, systems engineering tracks, Web3 labs. No theory — pure production.</p></div></div>
+                <div class="path-connector"></div>
+                <div class="path-step reveal-up"><span class="path-num">03</span><div><h4>Hack & Compete</h4><p>36-hour hackathons, coding sprints, DropHack — solve real problems under pressure.</p></div></div>
+                <div class="path-connector"></div>
+                <div class="path-step reveal-up"><span class="path-num">04</span><div><h4>Deploy & Scale</h4><p>Ship to production with cloud credits, hosting packs, and mentorship from practitioners.</p></div></div>
+                <div class="path-connector"></div>
+                <div class="path-step reveal-up"><span class="path-num">05</span><div><h4>Launch & Fund</h4><p>PitchCraft Accelerator — angel reviews, funding, and startup incubation support.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         IMPACT / STATS
+         ============================================ -->
+    <section class="impact-section" id="impact">
+        <div class="container">
+            <div class="impact-grid">
+                <div class="impact-card reveal-up" data-count="500">
+                    <span class="impact-num">500+</span>
+                    <span class="impact-label">Active Members</span>
+                </div>
+                <div class="impact-card reveal-up" data-count="20">
+                    <span class="impact-num">20+</span>
+                    <span class="impact-label">Events Hosted</span>
+                </div>
+                <div class="impact-card reveal-up" data-count="80">
+                    <span class="impact-num">80+</span>
+                    <span class="impact-label">Prototypes Built</span>
+                </div>
+                <div class="impact-card reveal-up" data-count="1000">
+                    <span class="impact-num">1000+</span>
+                    <span class="impact-label">Builders Impacted</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CTA
+         ============================================ -->
+    <section class="cta-section" id="join">
+        <div class="container">
+            <div class="cta-card reveal-up">
+                <span class="section-eyebrow cta-eyebrow">Community</span>
+                <h2 class="cta-heading">The future<br>is built<br><em>together.</em></h2>
+                <p class="cta-desc">Join 500+ builders who are done with tutorials and ready to ship production systems. Zero fees. Real projects. Actual deployment.</p>
+                <div class="cta-features">
+                    <span class="cta-feat">✓ Free Discord HQ</span>
+                    <span class="cta-feat">✓ Private GitHub Repos</span>
+                    <span class="cta-feat">✓ Free Hosting Packs</span>
+                    <span class="cta-feat">✓ Hackathon Access</span>
+                </div>
+                <div class="cta-actions">
+                    <a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer" class="btn btn-white btn-lg">Join Tech Yuva — It's Free</a>
+                    <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+                        <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;margin-right:8px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp Community
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand-col">
+                    <div class="footer-logo-row">
+                        <img src="assets/logo.jpg" alt="Tech Yuva" class="footer-logo-img">
+                        <span class="footer-brand"><span class="brand-tech">TECH</span> <span class="brand-yuva">YUVA</span></span>
+                    </div>
+                    <p class="footer-tagline">Where Youth Meet to Build Future Tech</p>
+                    <p class="footer-location">📍 New Delhi NCR, India</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Ecosystem</h4>
+                    <ul>
+                        <li><a href="#pillars">Systems Engineering</a></li>
+                        <li><a href="#pillars">AI & GenAI Bootcamps</a></li>
+                        <li><a href="#pillars">Web3 & Blockchain</a></li>
+                        <li><a href="#pillars">Open Source Hub</a></li>
+                        <li><a href="#pillars">PitchCraft Accelerator</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://www.techyuva.org/" target="_blank">Join Community</a></li>
+                        <li><a href="#hackathon">Events & Hackathons</a></li>
+                        <li><a href="https://www.techyuva.org/" target="_blank">Partner With Us</a></li>
+                        <li><a href="https://www.techyuva.org/" target="_blank">Become a Sponsor</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:techyuva.org@gmail.com">techyuva.org@gmail.com</a></li>
+                        <li><a href="https://www.instagram.com/techyuva_" target="_blank">Instagram @techyuva_</a></li>
+                        <li><a href="https://www.linkedin.com/in/techyuva/" target="_blank">LinkedIn</a></li>
+                        <li><a href="https://www.techyuva.org/" target="_blank">techyuva.org</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Tech Yuva — Guild Council. All rights reserved.</p>
+                <p class="footer-sub">Built with ❤️ by the Tech Yuva community</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP + ScrollTrigger via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+    <script type="module" src="circular-gallery.js"></script>
+</body>
+</html>
