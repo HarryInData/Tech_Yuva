@@ -1,3 +1,6 @@
 Video Frame Extractor*
 .DS_Store
 Thumbs.db
+node_modules
+.next
+
