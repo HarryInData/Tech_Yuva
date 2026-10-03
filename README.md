@@ -41,12 +41,13 @@ This repository contains the complete frontend web application, migrated from a 
 - 5 synchronized narrative phases with staggered typography transitions.
 - Full `prefers-reduced-motion` compliance falling back to static poster view.
 
-### 2. 🌀 3D WebGL Circular Ecosystem Gallery
-- Interactive cylindrical carousel built with **OGL** (lightweight WebGL library).
-- Custom vertex and fragment shaders for cylindrical bending curvature and rounded SDF corners.
-- Interactive mouse drag and touch gestures with inertial physics and infinite circular looping.
-- Dynamic text textures rendered directly onto 3D planes.
-- Integrated "Reset View" control.
+### 2. 🎠 Auto-Scrolling Photo Marquee & Lightbox Gallery
+- High-performance auto-scrolling marquee gallery built with pure CSS `translate3d` transforms.
+- Soft gradient edge masking (`mask-image`) to fade cards out seamlessly.
+- Pause on hover, focus-within, manual toggle, and offscreen `IntersectionObserver`.
+- Accessible desktop control toolbar (Prev, Play/Pause, Next) with keyboard support.
+- Fully accessible Lightbox dialog with image zoom, caption titles, photo counter, Escape key dismiss, and focus restoration.
+- `prefers-reduced-motion` fallback to horizontal scroll-snap strips.
 
 ### 3. 🛡️ Glassmorphism Floating Pill Navbar
 - Floating navigation bar with dynamic backdrop blur (`blur(28px) saturate(180%)`).
@@ -59,10 +60,10 @@ This repository contains the complete frontend web application, migrated from a 
 - Global `IntersectionObserver` orchestrating staggered `.reveal-up` and `.reveal-text` entrance animations.
 - Milestone counter animations with quartic easing (`500+`, `20+`, `80+`, `1000+`).
 
-### 5. 🏆 DropHack'26 Community Hackathon Showcase
-- Showcase for DropHack'26 (SIEC × Tech Yuva Community Partner).
-- Complete competition metadata: 10 Hours Offline, ₹50,000+ Prize Pool, 2–4 Team Size, 5 Technical Themes (FinTech, AI, Web3, Cybersecurity, Healthcare).
-- Direct registration integration with Unstop.
+### 5. 🏆 Past Events Showcase & Flagship Recaps
+- **Workshop on "Cyber Intelligence & Digital Defence" (23 Sep 2026):** Expert session by Vikas Kumar with Code Catalyst Club IMS Ghaziabad on OSINT and digital forensics.
+- **DropHack'26 (29 Aug 2026):** High-intensity offline hackathon at Paytm Office, Noida with 150-200 participants across 5 technical tracks and ₹50,000+ prize pool.
+- Key highlights, verified stat cards, completed journey timeline, and high-resolution photo marquees.
 
 ---
 
@@ -72,11 +73,10 @@ This repository contains the complete frontend web application, migrated from a 
 |---|---|
 | **Framework** | [Next.js 14](https://nextjs.org/) (App Router, Server & Client Components) |
 | **Library** | [React 18](https://react.dev/) + TypeScript |
-| **Styling** | Vanilla CSS with Design System Tokens (`app/globals.css`) |
+| **Styling** | Vanilla CSS with Navy Technical Design System Tokens (`app/globals.css`) |
 | **Animation Engine** | [GSAP 3](https://greensock.com/gsap/) + [ScrollTrigger](https://greensock.com/scrolltrigger/) |
-| **3D & WebGL** | [OGL](https://github.com/oframe/ogl) (Minimal WebGL library) |
 | **Typography** | Google Fonts ([Outfit](https://fonts.google.com/specimen/Outfit), [Inter](https://fonts.google.com/specimen/Inter), [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono)) |
-| **Tooling & Build** | Node.js, npm, TypeScript compiler (`tsc`) |
+| **Tooling & Build** | Node.js, npm, Sharp image optimizer, TypeScript compiler (`tsc`) |
 
 ---
 
@@ -176,23 +176,40 @@ To run the production server locally:
 npm start
 ```
 
+### 🚢 Production Deployment
+
+The project is structured for immediate zero-config deployment across modern cloud platforms:
+
+#### 1. Vercel (Recommended)
+1. Import repository `HarryInData/Tech_Yuva` into [Vercel](https://vercel.com).
+2. Framework preset will automatically detect **Next.js**.
+3. Environment variables (optional for preview): copy from `.env.example`.
+4. Click **Deploy**. Configuration is handled by `vercel.json`.
+
+#### 2. Netlify / Cloudflare Pages / Render
+- **Build command:** `npm run build`
+- **Publish directory:** `.next` (or standalone server for Node)
+
+#### 3. Static Hosting Fallback
+For static preview environments (e.g. GitHub Pages):
+- Root `index.html` is fully synchronized with optimized WebP media assets in `/public` and `/events`.
+
 ---
 
 ## 🎨 Design System & Tokens
 
-The platform uses a dark, futuristic aesthetic centered around **Black, Deep Red, Saffron, Green, and Warm White**:
+The platform uses a dark navy technical aesthetic:
 
 ```css
 :root {
-    --black: #050505;
-    --black-warm: #0a0404;
-    --black-card: #0f0808;
-    --red: #c0392b;
-    --red-light: #e74c3c;
-    --crimson: #dc143c;
-    --white: #f5f0ed;
-    --saffron: #FF9933;
-    --green: #00c853;
+    --bg-base: #050b18;
+    --bg-surface: #0a1329;
+    --bg-elevated: #0f1b33;
+    --accent: #1e90ff;
+    --accent-bright: #38bdf8;
+    --accent-soft: rgba(30, 144, 255, 0.12);
+    --accent-glow: rgba(30, 144, 255, 0.35);
+    --border-default: rgba(30, 144, 255, 0.18);
     --font: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
@@ -208,7 +225,7 @@ The platform uses a dark, futuristic aesthetic centered around **Black, Deep Red
 ## 🤝 Community & Connect
 
 - **Official Website:** [https://www.techyuva.org/](https://www.techyuva.org/)
-- **Events & Registration:** [DropHack'26 on Unstop](https://unstop.com/hackathons/drophack-siec-community-1701822)
+- **Join Community Form:** [Google Form Application](https://docs.google.com/forms/d/e/1FAIpQLSevqw_RcnwyozypufeDObx1sp3bXFgCJghln1etXAKRVYoKSg/viewform)
 - **LinkedIn:** [Tech Yuva](https://www.linkedin.com/in/techyuva/)
 - **Instagram:** [@techyuva_](https://www.instagram.com/techyuva_)
 - **Email:** [techyuva.org@gmail.com](mailto:techyuva.org@gmail.com)
