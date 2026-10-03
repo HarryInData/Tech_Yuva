@@ -7,4 +7,5 @@
  * - Standard view: https://docs.google.com/forms/d/e/.../viewform
  * - Short link:   https://forms.gle/...
  */
-export const JOIN_FORM_URL = "PASTE_MY_GOOGLE_FORM_LINK_HERE";
+export const JOIN_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSevqw_RcnwyozypufeDObx1sp3bXFgCJghln1etXAKRVYoKSg/viewform';

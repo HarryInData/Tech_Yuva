@@ -102,11 +102,9 @@ export default function GoogleFormModal({ isOpen: controlledIsOpen, onClose: con
     };
 
     window.addEventListener('tech-yuva:open-join-modal', handleCustomOpen);
-    document.addEventListener('click', handleDocumentClick);
 
     return () => {
       window.removeEventListener('tech-yuva:open-join-modal', handleCustomOpen);
-      document.removeEventListener('click', handleDocumentClick);
     };
   }, []);
 

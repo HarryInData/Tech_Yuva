@@ -82,13 +82,6 @@ export const apiClient = {
     return request(`/events/${slug}`);
   },
 
-  registerForEvent: async (eventId: string, data: any) => {
-    return request(`/events/${eventId}/register`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  },
-
   // Community Join / Application
   joinCommunity: async (applicationData: {
     fullName: string;

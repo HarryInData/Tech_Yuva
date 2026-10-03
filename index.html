@@ -109,7 +109,7 @@
                     <div class="hero-phase phase-5" id="heroPhase5">
                         <p class="phase-final-heading">Where Young Minds<br>Build What's Next.</p>
                         <div class="phase-cta-group">
-                            <a href="#join" class="btn btn-white">Explore Tech Yuva</a>
+                            <a href="#join" class="btn btn-primary">Explore Tech Yuva</a>
                             <a href="#hackathon" class="btn btn-ghost">Explore Events</a>
                         </div>
                     </div>
@@ -182,21 +182,37 @@
     <section class="circular-gallery-section" id="showcase">
         <div class="container">
             <div class="section-header reveal-up">
-                <span class="section-eyebrow">Empowerment Ecosystem</span>
+                <span class="section-eyebrow">Community Showcase</span>
                 <h2 class="section-heading">Empowerment.<br>Ecosystem. Community.</h2>
-                <p class="section-sub">Interact with our 3D circular ecosystem gallery — drag or scroll horizontally to explore our pillars, hackathons, and builder community.</p>
+                <p class="section-sub">Explore our builder ecosystem, flagship hackathons, and student innovation showcase.</p>
             </div>
             
-            <div class="circular-gallery-wrapper reveal-up">
-                <div id="circularGallery" class="circular-gallery-viewport"></div>
-                <div class="gallery-controls">
-                    <span class="gallery-hint">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3M19 9l3 3-3 3M2 12h20"/></svg>
-                        Drag or scroll horizontally to rotate gallery
-                    </span>
-                    <button id="resetGalleryBtn" class="gallery-reset-btn" type="button">
-                        Reset View
-                    </button>
+            <div class="showcase-marquee-wrap reveal-up">
+                <div class="event-gallery-grid">
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/drophack-26/drophack-02-team.webp" alt="Tech Yuva team and participants at the Paytm office reception in Noida" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>The Tech Yuva team</span>
+                        </div>
+                    </div>
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/cyber-intelligence-workshop-26/cyber-01-auditorium.webp" alt="Participants seated in the Mini Auditorium during the workshop" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>Full session at the Mini Auditorium</span>
+                        </div>
+                    </div>
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/drophack-26/drophack-04-coding-floor.webp" alt="Participants coding on laptops across rows of desks" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>10 hours of building</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -208,15 +224,15 @@
     <section class="events-section" id="hackathon">
         <div class="container">
             <div class="section-header reveal-up">
-                <span class="section-eyebrow">Upcoming Event</span>
+                <span class="section-eyebrow">Past Events · Recap &amp; Highlights</span>
                 <h2 class="section-heading">HACK. BUILD. SHIP.</h2>
             </div>
-            <div class="event-showcase">
+            <div class="event-showcase" id="drophack-26">
                 <div class="event-poster-wrap reveal-up">
                     <img src="assets/drophack.png" alt="DropHack'26 — SIEC Community Hackathon, Tech Yuva as Community Partner" class="event-poster">
-                    <div class="event-badge">
-                        <span class="badge-dot"></span>
-                        Community Partner
+                    <div class="event-badge--past">
+                        <span class="badge-check">✓</span>
+                        <span>PAST EVENT</span>
                     </div>
                 </div>
                 <div class="event-info reveal-up">
@@ -232,6 +248,14 @@
                         <div class="meta-item">
                             <span class="meta-label">Duration</span>
                             <span class="meta-value">10 Hours Offline</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Venue</span>
+                            <span class="meta-value">Paytm Office, Noida</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Participants</span>
+                            <span class="meta-value">150-200</span>
                         </div>
                         <div class="meta-item">
                             <span class="meta-label">Prize Pool</span>
@@ -253,19 +277,59 @@
 
                     <div class="event-stages">
                         <div class="stage-item">
-                            <span class="stage-num">1</span>
+                            <span class="stage-num stage-num--completed">✓</span>
                             <div><strong>Online Qualifier</strong><br><span class="muted">15 Aug 2026</span></div>
                         </div>
                         <div class="stage-line"></div>
                         <div class="stage-item">
-                            <span class="stage-num stage-num-alt">2</span>
+                            <span class="stage-num stage-num--completed">✓</span>
                             <div><strong>Offline Finale</strong><br><span class="muted">29 Aug 2026</span></div>
                         </div>
                     </div>
 
-                    <a href="https://unstop.com/hackathons/drophack-siec-community-1701822" target="_blank" rel="noopener noreferrer" class="btn btn-white event-cta-btn">
-                        Register on Unstop <span>↗</span>
+                    <a href="#drophack-26-highlights" class="btn btn-primary event-cta-btn" style="width: auto; padding: 12px 28px;">
+                        View Highlights ↓
                     </a>
+                </div>
+            </div>
+
+            <!-- Highlights Photo Gallery -->
+            <div class="event-gallery-wrap reveal-up" id="drophack-26-highlights">
+                <div class="event-gallery-header">
+                    <div>
+                        <span class="section-eyebrow">Highlights</span>
+                        <h3 class="event-gallery-title">Key Highlights &amp; Moments</h3>
+                    </div>
+                    <span class="event-gallery-sub">10-Hour In-Person Sprint · 150-200 Participants · Paytm Office, Noida</span>
+                </div>
+
+                <div class="event-gallery-grid">
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/drophack-26/drophack-02-team.webp" alt="Tech Yuva team and participants at the Paytm office reception in Noida" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>The Tech Yuva team</span>
+                        </div>
+                    </div>
+
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/drophack-26/drophack-04-coding-floor.webp" alt="Participants coding on laptops across rows of desks" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>10 hours of building</span>
+                        </div>
+                    </div>
+
+                    <div class="event-photo-card">
+                        <div class="event-photo-img-wrap">
+                            <img src="events/drophack-26/drophack-06-session.webp" alt="A speaker presenting to participants in front of a projector screen" class="event-photo-img" loading="lazy">
+                        </div>
+                        <div class="event-photo-caption">
+                            <span>Session with participants</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -370,7 +434,7 @@
                     <span class="cta-feat">✓ Hackathon Access</span>
                 </div>
                 <div class="cta-actions">
-                    <a href="https://www.techyuva.org/" target="_blank" rel="noopener noreferrer" class="btn btn-white btn-lg">Join Tech Yuva — It's Free</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSevqw_RcnwyozypufeDObx1sp3bXFgCJghln1etXAKRVYoKSg/viewform" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Join Tech Yuva — It's Free</a>
                     <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
                         <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;margin-right:8px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                         WhatsApp Community
@@ -407,7 +471,7 @@
                 <div class="footer-col">
                     <h4>Community</h4>
                     <ul>
-                        <li><a href="https://www.techyuva.org/" target="_blank">Join Community</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSevqw_RcnwyozypufeDObx1sp3bXFgCJghln1etXAKRVYoKSg/viewform" target="_blank" rel="noopener noreferrer">Join Community</a></li>
                         <li><a href="#hackathon">Events & Hackathons</a></li>
                         <li><a href="https://www.techyuva.org/" target="_blank">Partner With Us</a></li>
                         <li><a href="https://www.techyuva.org/" target="_blank">Become a Sponsor</a></li>
@@ -434,6 +498,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
-    <script type="module" src="circular-gallery.js"></script>
 </body>
 </html>

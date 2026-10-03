@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { aboutContent } from '@/data/aboutContent';
-import { openJoinFormModal } from '@/components/GoogleFormModal';
+import { JOIN_FORM_URL } from '@/config/joinForm';
 
 function IconRocket() {
   return (
@@ -341,14 +341,14 @@ export default function AboutMission() {
             <h3 className="about-closing-heading">{cta.heading}</h3>
             <p className="about-closing-text">{cta.text}</p>
             <div className="about-closing-actions">
-              <button
-                type="button"
+              <a
+                href={JOIN_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-white btn-lg"
-                data-join-form="true"
-                onClick={(e) => openJoinFormModal(e.currentTarget)}
               >
                 {cta.buttonLabel}
-              </button>
+              </a>
             </div>
           </div>
         </div>

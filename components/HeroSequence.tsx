@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { JOIN_FORM_URL } from '@/config/joinForm';
 
 const FRAME_COUNT = 270;
 const FRAME_DIR = '/assets/frames/';
@@ -415,7 +416,14 @@ export default function HeroSequence() {
                 Build What&apos;s Next.
               </p>
               <div className="phase-cta-group">
-                <button type="button" className="btn btn-white" data-join-form="true">Join Community</button>
+                <a
+                  href={JOIN_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-white"
+                >
+                  Join Community
+                </a>
                 <a href="#hackathon" className="btn btn-ghost">Explore Events</a>
               </div>
             </div>

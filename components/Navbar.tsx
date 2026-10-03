@@ -94,10 +94,8 @@ export default function Navbar() {
       setIsOpen(false);
       const target = document.querySelector(href) as HTMLElement | null;
       if (target) {
-        window.scrollTo({
-          top: target.offsetTop - 80,
-          behavior: 'smooth',
-        });
+        target.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', href);
       }
     }
   };

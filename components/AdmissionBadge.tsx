@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { apiClient } from '@/lib/apiClient';
+import { JOIN_FORM_URL } from '@/config/joinForm';
 
 interface AdmissionBadgeProps {
   onOpenJoinModal?: () => void;
@@ -35,22 +36,17 @@ export default function AdmissionBadge({ onOpenJoinModal }: AdmissionBadgeProps)
     if (onOpenJoinModal) {
       e.preventDefault();
       onOpenJoinModal();
-    } else {
-      const el = document.getElementById('join');
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
     }
   };
 
   return (
     <a
-      href="#join"
-      data-join-form="true"
+      href={JOIN_FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
       className={`admission-badge-pill ${isOpen ? 'badge-open' : 'badge-closed'}`}
-      title={isOpen ? 'Click to apply for the current cohort' : 'Admissions currently closed'}
+      title={isOpen ? 'Apply for current cohort (opens application form in new tab)' : 'Admissions currently closed'}
     >
       <span className={`pulse-dot ${isOpen ? 'dot-active' : 'dot-inactive'}`}></span>
       <span className="badge-text">{loading ? 'Checking Cohort...' : badgeLabel}</span>
@@ -58,3 +54,4 @@ export default function AdmissionBadge({ onOpenJoinModal }: AdmissionBadgeProps)
     </a>
   );
 }
+

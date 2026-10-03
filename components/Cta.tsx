@@ -1,4 +1,4 @@
-'use client';
+import { JOIN_FORM_URL } from '@/config/joinForm';
 
 export default function Cta() {
   return (
@@ -22,13 +22,14 @@ export default function Cta() {
               <span className="cta-feat">✓ Hackathon Access</span>
             </div>
             <div className="cta-actions">
-              <button
-                type="button"
+              <a
+                href={JOIN_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-white btn-lg"
-                data-join-form="true"
               >
                 Join Community
-              </button>
+              </a>
               <a
                 href="https://chat.whatsapp.com/"
                 target="_blank"

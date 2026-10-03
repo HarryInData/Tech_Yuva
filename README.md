@@ -112,8 +112,8 @@ tech_yuva/
 │   ├── AuthModal.tsx       # Navy dark themed modal for Login, Sign Up, & Forgot Password
 │   ├── CircularGallery.tsx # 3D WebGL cylindrical carousel component (OGL)
 │   ├── Cta.tsx             # Community action card with Join Community application modal
-│   ├── EventRegisterModal.tsx # Direct RSVP ticket reservation modal
-│   ├── Events.tsx          # DropHack'26 hackathon showcase with RSVP integration
+│   ├── EventGalleryMarquee.tsx # Auto-scrolling photo marquee & modal lightbox
+│   ├── Events.tsx          # Past events recap, DropHack'26 & Cyber Intelligence highlights
 │   ├── Footer.tsx          # 4-column navigation grid & guild footer
 │   ├── Founder.tsx         # Leadership card for founder Lakshay Soni
 │   ├── HeroSequence.tsx    # 270-frame canvas scroll sequence with GSAP
