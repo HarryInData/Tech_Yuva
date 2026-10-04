@@ -200,15 +200,14 @@ button:focus-visible,
 /* ============================================
    HERO — Scroll-Driven Canvas
    ============================================ */
-.hero-sequence{position:relative;background:var(--black);overflow:hidden}
+.hero-sequence{position:relative;background:var(--black)}
 
 .hero-scroll-container{
-    height:100vh;
-    min-height:600px;
+    height:400vh;
     position:relative;
 }
 .hero-sticky{
-    position:relative;
+    position:sticky;top:0;
     width:100%;height:100vh;
     min-height:600px;
     overflow:hidden;
@@ -224,6 +223,7 @@ button:focus-visible,
     transform:translateZ(0);
     backface-visibility:hidden;
     will-change:contents;
+    pointer-events:none;
 }
 
 /* Subtle Technical Grid Overlay */
@@ -267,8 +267,56 @@ button:focus-visible,
     top:50%;transform:translateY(-50%);
     max-width:600px;
     opacity:0;visibility:hidden;
+    transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+    pointer-events:none;
 }
-.hero-phase.active{opacity:1;visibility:visible}
+.hero-phase.active{opacity:1;visibility:visible;pointer-events:auto}
+
+/* Hero Badge Pill & CTA Row */
+.hero-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(30, 144, 255, 0.08);
+    border: 1px solid rgba(30, 144, 255, 0.28);
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.03em;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+    width: fit-content;
+    pointer-events: auto;
+}
+.hero-badge-pill .pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00E5FF;
+    box-shadow: 0 0 10px #00E5FF;
+    display: inline-block;
+}
+.hero-cta-row {
+    margin-top: 24px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    pointer-events: auto;
+}
+.hero-cta-row a,
+.hero-cta-row button {
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
+}
+.phase-subtext {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
 
 /* Phase 1 — Brand */
 .phase-logo{width:56px;height:56px;border-radius:16px;margin-bottom:20px;border:2px solid var(--border-accent)}
@@ -1474,6 +1522,7 @@ section[id],
     .reveal-up,.reveal-text{opacity:1;transform:none;transition:none}
     .hero-phase{transition:none}
     .hero-scroll-container{height:100vh}
+    .hero-sticky{position:relative;height:100vh}
 }
 
 /* ============================================
@@ -1496,6 +1545,7 @@ section[id],
     .nav-toggle{display:flex}
 }
 @media(max-width:768px){
+    .hero-scroll-container{height:250vh}
     .pillars-grid{grid-template-columns:1fr}
     .impact-grid{grid-template-columns:1fr 1fr}
 

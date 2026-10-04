@@ -193,87 +193,61 @@
         });
     }
 
-    // === Auto-Play Animation Loop ===
-    let isPlaying = true;
-    let isHolding = false;
-    let animFrame = 0;
-    let lastTick = performance.now();
-    const FPS = 25;
-    const FRAME_INTERVAL = 1000 / FPS;
-
-    function initAutoPlayAnimation() {
+    // === GSAP ScrollTrigger Setup ===
+    function initScrollAnimation() {
         if (!canvas || !ctx || !heroContainer) return;
 
-        function autoPlayLoop(now) {
-            if (isPlaying && !isHolding) {
-                const delta = now - lastTick;
-                if (delta >= FRAME_INTERVAL) {
-                    const framesToAdvance = Math.max(1, Math.floor(delta / FRAME_INTERVAL));
-                    lastTick = now - (delta % FRAME_INTERVAL);
+        if (window.gsap && window.ScrollTrigger) {
+            gsap.registerPlugin(ScrollTrigger);
 
-                    let nextFrame = animFrame + framesToAdvance;
+            const frameAnimation = { frame: 0 };
 
-                    if (nextFrame >= FRAME_COUNT - 1) {
-                        nextFrame = FRAME_COUNT - 1;
-                        animFrame = nextFrame;
-                        renderFrame(nextFrame);
-                        updateTextPhases(1);
+            gsap.to(frameAnimation, {
+                frame: FRAME_COUNT - 1,
+                snap: 'frame',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroContainer,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.5,
+                    onUpdate: function (self) {
+                        const progress = self.progress;
+                        const frameIndex = Math.round(progress * (FRAME_COUNT - 1));
+                        const clampedIndex = Math.max(0, Math.min(frameIndex, FRAME_COUNT - 1));
 
-                        isHolding = true;
-                        setTimeout(() => {
-                            animFrame = 0;
-                            isHolding = false;
-                            lastTick = performance.now();
-                            renderFrame(0);
-                            updateTextPhases(0);
-                        }, 3500);
-                    } else {
-                        animFrame = nextFrame;
-                        let drawIdx = nextFrame;
-                        if (!images[drawIdx]) {
-                            for (let k = drawIdx; k >= 0; k--) {
-                                if (images[k]) { drawIdx = k; break; }
+                        let targetFrame = clampedIndex;
+                        if (!images[targetFrame]) {
+                            for (let k = targetFrame; k >= 0; k--) {
+                                if (images[k]) { targetFrame = k; break; }
                             }
                         }
-                        if (drawIdx !== currentFrame && images[drawIdx]) {
-                            renderFrame(drawIdx);
+
+                        if (targetFrame !== currentFrame && images[targetFrame]) {
+                            if (rafId) cancelAnimationFrame(rafId);
+                            rafId = requestAnimationFrame(() => renderFrame(targetFrame));
                         }
-                        const progress = nextFrame / (FRAME_COUNT - 1);
+
                         updateTextPhases(progress);
                     }
                 }
-            }
-            rafId = requestAnimationFrame(autoPlayLoop);
+            });
         }
 
-        // Preload first 20 frames then play
-        const initialLoads = [];
-        for (let i = 0; i < 20; i++) {
-            initialLoads.push(loadImage(i));
-        }
-        Promise.all(initialLoads).then(() => {
+        // Start loading frames
+        loadImage(0).then(() => {
             resizeCanvas();
             if (images[0]) renderFrame(0);
             hideLoader();
             showPhase(0);
 
-            lastTick = performance.now();
-            rafId = requestAnimationFrame(autoPlayLoop);
-
-            // Stream rest
-            for (let i = 20; i < FRAME_COUNT; i += BATCH_SIZE) {
+            // Stream remaining frames in background
+            for (let i = 1; i < FRAME_COUNT; i += BATCH_SIZE) {
                 for (let j = i; j < Math.min(i + BATCH_SIZE, FRAME_COUNT); j++) {
                     loadImage(j);
                 }
             }
         });
-
-        // Pause when scrolled out of view
-        const observer = new IntersectionObserver(([entry]) => {
-            isPlaying = entry.isIntersecting;
-            if (isPlaying) lastTick = performance.now();
-        }, { threshold: 0.15 });
-        observer.observe(heroContainer);
     }
 
     function updateTextPhases(progress) {
@@ -508,7 +482,7 @@
         if (prefersReducedMotion) {
             initReducedMotion();
         } else {
-            initAutoPlayAnimation();
+            initScrollAnimation();
         }
 
         // Handle resize

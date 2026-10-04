@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { JOIN_FORM_URL } from '@/config/joinForm';
 
 const FRAME_COUNT = 270;
 const FRAME_DIR = '/assets/frames/';
-const BATCH_SIZE = 15;
-const FPS = 25; // 25 frames per second
-const FRAME_INTERVAL = 1000 / FPS; // 40ms per frame
+const SCRUB_SPEED = 0.5;
+const BATCH_SIZE = 12;
 
 function getFramePath(index: number, ext = '.webp') {
   const num = String(index + 1).padStart(3, '0');
@@ -33,10 +34,6 @@ export default function HeroSequence() {
   const [loaderHidden, setLoaderHidden] = useState(false);
   const [loaderDisplayNone, setLoaderDisplayNone] = useState(false);
 
-  // References for continuous auto-play loop (prevents re-renders from breaking loop)
-  const isPlayingRef = useRef(true);
-  const currentFrameRef = useRef(0);
-  const isHoldingRef = useRef(false);
   const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(FRAME_COUNT).fill(null));
 
   useEffect(() => {
@@ -54,14 +51,17 @@ export default function HeroSequence() {
       phase5Ref.current,
     ];
     const words = [word1Ref.current, word2Ref.current, word3Ref.current];
-
     const images = imagesRef.current;
+
     let loadedCount = 0;
     let renderedFrame = -1;
     let rafId: number | null = null;
-    let lastTick = performance.now();
-    let holdTimeout: NodeJS.Timeout | null = null;
+    let stInstance: ScrollTrigger | null = null;
     let isDestroyed = false;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const resizeCanvas = () => {
       if (isDestroyed || !canvas || !ctx) return;
@@ -80,9 +80,9 @@ export default function HeroSequence() {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
-        const cur = currentFrameRef.current;
-        if (cur >= 0 && images[cur]) {
-          renderFrame(cur);
+        const frameToDraw = renderedFrame >= 0 ? renderedFrame : 0;
+        if (images[frameToDraw]) {
+          renderFrame(frameToDraw);
         }
       } catch (err) {
         // Safe resize guard
@@ -123,7 +123,13 @@ export default function HeroSequence() {
           offsetY = 0;
         }
 
-        ctx.drawImage(img, Math.round(offsetX), Math.round(offsetY), Math.round(drawW), Math.round(drawH));
+        ctx.drawImage(
+          img,
+          Math.round(offsetX),
+          Math.round(offsetY),
+          Math.round(drawW),
+          Math.round(drawH)
+        );
       } catch (err) {
         // Draw guard
       }
@@ -177,7 +183,7 @@ export default function HeroSequence() {
       setLoaderHidden(true);
       setTimeout(() => {
         if (!isDestroyed) setLoaderDisplayNone(true);
-      }, 600);
+      }, 500);
     };
 
     const showPhase = (phaseIndex: number) => {
@@ -219,40 +225,29 @@ export default function HeroSequence() {
       }
     };
 
-    // Auto-Play animation loop
-    const autoPlayLoop = (now: number) => {
-      if (isDestroyed) return;
+    const initScrollAnimation = () => {
+      if (!canvas || !ctx || !heroContainer) return;
+      gsap.registerPlugin(ScrollTrigger);
 
-      if (isPlayingRef.current && !isHoldingRef.current) {
-        const delta = now - lastTick;
-        if (delta >= FRAME_INTERVAL) {
-          const framesToAdvance = Math.max(1, Math.floor(delta / FRAME_INTERVAL));
-          lastTick = now - (delta % FRAME_INTERVAL);
+      const frameObj = { frame: 0 };
 
-          let nextFrame = currentFrameRef.current + framesToAdvance;
+      const tween = gsap.to(frameObj, {
+        frame: FRAME_COUNT - 1,
+        snap: 'frame',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroContainer,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: SCRUB_SPEED,
+          onUpdate: (self) => {
+            if (isDestroyed) return;
+            const progress = self.progress;
+            const frameIndex = Math.round(progress * (FRAME_COUNT - 1));
+            const clampedIndex = Math.max(0, Math.min(frameIndex, FRAME_COUNT - 1));
 
-          if (nextFrame >= FRAME_COUNT - 1) {
-            // Reached final CTA phase
-            nextFrame = FRAME_COUNT - 1;
-            currentFrameRef.current = nextFrame;
-            renderFrame(nextFrame);
-            updateTextPhases(1);
-
-            // Hold on CTA phase for 3.5 seconds so user can read/click, then loop back
-            isHoldingRef.current = true;
-            holdTimeout = setTimeout(() => {
-              if (isDestroyed) return;
-              currentFrameRef.current = 0;
-              isHoldingRef.current = false;
-              lastTick = performance.now();
-              renderFrame(0);
-              updateTextPhases(0);
-            }, 3500);
-          } else {
-            currentFrameRef.current = nextFrame;
-
-            // Pick nearest loaded frame if current hasn't finished loading
-            let drawIdx = nextFrame;
+            // Select nearest loaded frame to prevent any blank stuttering
+            let drawIdx = clampedIndex;
             if (!images[drawIdx]) {
               for (let k = drawIdx; k >= 0; k--) {
                 if (images[k]) {
@@ -261,72 +256,86 @@ export default function HeroSequence() {
                 }
               }
             }
+
             if (drawIdx !== renderedFrame && images[drawIdx]) {
-              renderFrame(drawIdx);
+              if (rafId) cancelAnimationFrame(rafId);
+              rafId = requestAnimationFrame(() => renderFrame(drawIdx));
             }
 
-            const progress = nextFrame / (FRAME_COUNT - 1);
             updateTextPhases(progress);
-          }
-        }
-      }
+          },
+        },
+      });
 
-      rafId = requestAnimationFrame(autoPlayLoop);
+      stInstance = tween.scrollTrigger ?? null;
+      ScrollTrigger.refresh();
     };
 
-    // Start loading frames and launch auto-play immediately
     const startSequence = async () => {
-      // Preload first 20 frames for instant smooth playback
-      const initialLoads: Promise<HTMLImageElement | null>[] = [];
-      for (let i = 0; i < 20; i++) {
-        initialLoads.push(loadImage(i));
-      }
-      await Promise.all(initialLoads);
-
+      // 1. Immediately preload the first frame for instant LCP
+      await loadImage(0);
       if (isDestroyed) return;
+
       resizeCanvas();
       if (images[0]) renderFrame(0);
       hideLoader();
       showPhase(0);
 
-      // Start auto-play loop immediately
-      lastTick = performance.now();
-      rafId = requestAnimationFrame(autoPlayLoop);
+      // 2. Initialize scroll scrubbing
+      initScrollAnimation();
 
-      // Stream the remaining frames in the background
-      for (let i = 20; i < FRAME_COUNT; i += BATCH_SIZE) {
-        if (isDestroyed) break;
-        const batch: Promise<HTMLImageElement | null>[] = [];
-        for (let j = i; j < Math.min(i + BATCH_SIZE, FRAME_COUNT); j++) {
-          batch.push(loadImage(j));
+      // 3. Preload a small initial burst (frames 1–15) for immediate smooth start
+      const firstBatch: Promise<HTMLImageElement | null>[] = [];
+      for (let i = 1; i < Math.min(16, FRAME_COUNT); i++) {
+        firstBatch.push(loadImage(i));
+      }
+      await Promise.all(firstBatch);
+      if (isDestroyed) return;
+
+      // 4. Stream the remaining frames in non-blocking batches in the background
+      const loadRemaining = async () => {
+        for (let i = 16; i < FRAME_COUNT; i += BATCH_SIZE) {
+          if (isDestroyed) break;
+          const batch: Promise<HTMLImageElement | null>[] = [];
+          for (let j = i; j < Math.min(i + BATCH_SIZE, FRAME_COUNT); j++) {
+            batch.push(loadImage(j));
+          }
+          await Promise.all(batch);
+          // Yield to main thread between batches to keep scrolling at 60fps
+          await new Promise((r) => setTimeout(r, 20));
         }
-        await Promise.all(batch);
+      };
+
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        (window as Window & { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(() => {
+          loadRemaining();
+        });
+      } else {
+        setTimeout(loadRemaining, 50);
       }
     };
 
-    startSequence();
-
-    // Pause when hero is out of view to save GPU/battery
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) {
-          isPlayingRef.current = false;
-        } else {
-          isPlayingRef.current = true;
-          lastTick = performance.now();
+    if (prefersReducedMotion) {
+      loadImage(0).then(() => {
+        if (images[0]) {
+          resizeCanvas();
+          renderFrame(0);
         }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (heroContainer) {
-      observer.observe(heroContainer);
+        hideLoader();
+      });
+      showPhase(0);
+      if (heroContainer) heroContainer.style.height = '100vh';
+    } else {
+      startSequence();
     }
 
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resizeCanvas, 150);
+      resizeTimer = setTimeout(() => {
+        resizeCanvas();
+        if (stInstance) ScrollTrigger.refresh();
+      }, 150);
     };
 
     window.addEventListener('resize', handleResize);
@@ -335,11 +344,13 @@ export default function HeroSequence() {
       isDestroyed = true;
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimer);
-      if (holdTimeout) clearTimeout(holdTimeout);
       if (rafId) cancelAnimationFrame(rafId);
-      observer.disconnect();
+      if (stInstance) stInstance.kill();
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === heroContainer) st.kill();
+      });
     };
-  }, []); // Run ONCE on mount
+  }, []);
 
   return (
     <section className="hero-sequence" id="hero">
@@ -361,7 +372,7 @@ export default function HeroSequence() {
         </div>
       </div>
 
-      {/* Hero Canvas Container: full-screen cinematic experience with automatic animation */}
+      {/* Hero Canvas Container: 400vh scroll container, sticky canvas pinned inside */}
       <div className="hero-scroll-container" id="heroScrollContainer" ref={containerRef}>
         <div className="hero-sticky">
           {/* Canvas */}
@@ -376,18 +387,36 @@ export default function HeroSequence() {
           {/* Left readability gradient */}
           <div className="hero-text-gradient"></div>
 
-          {/* Text Overlay — 5 phases synced to automatic playback */}
+          {/* Text Overlay — 5 phases synced to user scroll */}
           <div className="hero-overlay">
-            {/* Phase 1: Brand identity */}
+            {/* Phase 1: 0–20% — Brand identity & Hero hook */}
             <div className="hero-phase phase-1 active" id="heroPhase1" ref={phase1Ref}>
+              <div className="hero-badge-pill">
+                <span className="pulse-dot dot-active"></span>
+                <span>Join 500+ active members building future tech</span>
+              </div>
               <img src="/assets/logo.jpg" alt="Tech Yuva" className="phase-logo" />
               <h1 className="phase-heading-xl">
                 <span className="brand-tech">TECH</span> <span className="brand-yuva">YUVA</span>
               </h1>
               <p className="phase-tagline">Where Youth Meet to Build Future Tech</p>
+              <div className="hero-cta-row">
+                <a
+                  href={JOIN_FORM_URL}
+                  data-join-form="true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-white"
+                >
+                  Join Community
+                </a>
+                <a href="#intro" className="btn btn-ghost">
+                  Explore Tech Yuva
+                </a>
+              </div>
             </div>
 
-            {/* Phase 2: Primary statement */}
+            {/* Phase 2: 20–40% — Primary statement */}
             <div className="hero-phase phase-2" id="heroPhase2" ref={phase2Ref}>
               <p className="phase-statement">
                 Building future tech<br />
@@ -395,12 +424,12 @@ export default function HeroSequence() {
               </p>
             </div>
 
-            {/* Phase 3: Minimal / VR dominant */}
+            {/* Phase 3: 40–60% — Minimal / VR dominant */}
             <div className="hero-phase phase-3" id="heroPhase3" ref={phase3Ref}>
               <p className="phase-whisper">Enter the future.</p>
             </div>
 
-            {/* Phase 4: BUILD. CONNECT. INNOVATE. */}
+            {/* Phase 4: 60–80% — BUILD. CONNECT. INNOVATE. */}
             <div className="hero-phase phase-4" id="heroPhase4" ref={phase4Ref}>
               <div className="phase-words">
                 <span className="phase-word" id="word1" ref={word1Ref}>BUILD.</span>
@@ -409,22 +438,28 @@ export default function HeroSequence() {
               </div>
             </div>
 
-            {/* Phase 5: Final CTA */}
+            {/* Phase 5: 80–100% — Final CTA */}
             <div className="hero-phase phase-5" id="heroPhase5" ref={phase5Ref}>
               <p className="phase-final-heading">
                 Where Young Minds<br />
                 Build What&apos;s Next.
               </p>
-              <div className="phase-cta-group">
+              <p className="phase-subtext">
+                Join 500+ builders shipping production systems, AI pipelines &amp; real startups.
+              </p>
+              <div className="hero-cta-row">
                 <a
                   href={JOIN_FORM_URL}
+                  data-join-form="true"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-white"
                 >
                   Join Community
                 </a>
-                <a href="#hackathon" className="btn btn-ghost">Explore Events</a>
+                <a href="#hackathon" className="btn btn-ghost">
+                  Explore Events
+                </a>
               </div>
             </div>
           </div>
